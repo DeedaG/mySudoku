@@ -1,0 +1,28 @@
+<div class="sudoku-wrapper">
+  <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
+   <div *ngIf="solved" class="solved-message">
+    🎉 Congratulations! You solved the puzzle!
+  </div>
+
+  <!-- Container with background image -->
+  <div class="board-container">
+    <div class="sudoku-board">
+      <div *ngFor="let row of grid; let i = index; trackBy: trackByIndex" class="row">
+        <input *ngFor="let cell of row; let j = index; trackBy: trackByIndex"
+               class="cell"
+               type="text"
+               maxlength="1"
+               inputmode="numeric"
+               [(ngModel)]="grid[i][j]"
+               [readOnly]="fixed[i][j]"
+               [class.fixed]="fixed[i][j]"
+               [class.error]="errors[i][j]"
+               (ngModelChange)="validateCell(i, j)"
+               (keydown)="onKeyDown($event)"
+               (wheel)="onWheel($event)" />
+      </div>
+    </div>
+  </div>
+
+ 
+</div>
