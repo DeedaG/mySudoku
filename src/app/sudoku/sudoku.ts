@@ -21,6 +21,7 @@ export class SudokuComponent {
 
   newPuzzle() {
     this.solved = false;
+    console.log(this.solved, 'solved');
 
     // Step 1: generate a full solution
     const fullGrid = this.generateFullGrid();
