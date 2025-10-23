@@ -1,6 +1,6 @@
 <div class="sudoku-wrapper">
   <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
-   <div *ngIf="solved" class="solved-message">
+   <div if="solved" class="solved-message">
     🎉 Congratulations! You solved the puzzle!
   </div>
 
