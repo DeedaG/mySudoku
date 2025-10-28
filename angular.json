@@ -20,18 +20,19 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public",
-                "output": "/" 
-              },
-              {
-                "glob": "_redirects",
-                "input": "public",
-                "output": "/" 
-              }
-            ],
+       "assets": [
+                  {
+                    "glob": "**/*",
+                    "input": "public",
+                    "output": "/"
+                  },
+                  {
+                    "glob": "_redirects",
+                    "input": "public",
+                    "output": "/"
+                  }
+                ],
+
             "styles": [
               "src/styles.less"
             ],
