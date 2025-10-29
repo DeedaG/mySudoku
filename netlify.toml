@@ -2,15 +2,7 @@
   command = "ng build --configuration production"
   publish = "dist/mySudoku/browser"
 
-# Disable Angular SSR plugin (we only need static hosting)
-[[plugins]]
-  package = "@netlify/angular-runtime"
-  [plugins.inputs]
-  disable = true
-
-# Redirects for Angular routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
