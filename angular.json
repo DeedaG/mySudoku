@@ -87,11 +87,17 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "less",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+                  {
+                    "glob": "**/*",
+                    "input": "public",
+                    "output": "/"
+                  },
+                  {
+                    "glob": "_redirects",
+                    "input": "public",
+                    "output": "/"
+                  }
+                ],
             "styles": [
               "src/styles.less"
             ]
