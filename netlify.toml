@@ -1,7 +1,13 @@
+# netlify.toml for static Angular app (no SSR)
+
 [build]
+  # Angular production build command
   command = "ng build --configuration production"
+  
+  # Folder to publish — must match your Angular output
   publish = "dist/mySudoku/browser"
 
+# Redirect all routes to index.html for Angular routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
