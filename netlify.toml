@@ -1,4 +1,8 @@
 [build]
   command = "ng build --configuration production"
-  publish = "dist/mySudoku/browser"
+  publish = "dist/mysudoku/browser"
   functions = ""
+
+[[plugins]]
+  package = "@netlify/plugin-angular-ssr"
+  enabled = false
