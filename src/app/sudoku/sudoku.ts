@@ -105,18 +105,6 @@ export class SudokuComponent {
 
   onWheel(event: WheelEvent) { event.preventDefault(); }
 
-  // validateCell(row: number, col: number) {
-  //   const val = Number(this.grid[row][col]);
-  //   if (!val || val < 1 || val > 9) {
-  //     this.grid[row][col] = 0;
-  //     this.errors[row][col] = false;
-  //     this.solved = false;
-  //     return;
-  //   }
-
-  //   this.errors[row][col] = this.hasConflict(row, col, val);
-  //   this.solved = this.isSolved();
-  // }
 
   hasConflict(row: number, col: number, val: number): boolean {
     for (let i = 0; i < 9; i++) {
