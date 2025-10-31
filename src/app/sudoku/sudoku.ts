@@ -14,6 +14,7 @@ export class SudokuComponent {
   fixed: boolean[][] = [];
   errors: boolean[][] = [];
   solved = false;
+  private solution: number[][] = [];
 
   constructor() {
     this.newPuzzle();
@@ -21,10 +22,10 @@ export class SudokuComponent {
 
   newPuzzle() {
     this.solved = false;
-    console.log(this.solved, 'solved');
 
-    // Step 1: generate a full solution
+   // Step 1: generate a full valid Sudoku solution
     const fullGrid = this.generateFullGrid();
+    this.solution = fullGrid.map(row => [...row]); // save the solution
 
     // Step 2: remove some numbers to create the puzzle
     const puzzleGrid = this.createPuzzle(fullGrid, 40); // remove 40 cells
@@ -104,18 +105,6 @@ export class SudokuComponent {
 
   onWheel(event: WheelEvent) { event.preventDefault(); }
 
-  validateCell(row: number, col: number) {
-    const val = Number(this.grid[row][col]);
-    if (!val || val < 1 || val > 9) {
-      this.grid[row][col] = 0;
-      this.errors[row][col] = false;
-      this.solved = false;
-      return;
-    }
-
-    this.errors[row][col] = this.hasConflict(row, col, val);
-    this.solved = this.isSolved();
-  }
 
   hasConflict(row: number, col: number, val: number): boolean {
     for (let i = 0; i < 9; i++) {
@@ -143,4 +132,33 @@ export class SudokuComponent {
   }
 
   trackByIndex(index: number, _item: any): number { return index; }
+
+// 👇 modify validateCell to also check against the solution
+  validateCell(row: number, col: number) {
+    const val = Number(this.grid[row][col]);
+
+    // Ignore empty or invalid input
+    if (!val || val < 1 || val > 9) {
+      this.grid[row][col] = 0;
+      this.errors[row][col] = false;
+      this.solved = false;
+      return;
+    }
+
+    // 1️⃣ First, ensure the player typed the correct number for this square
+    if (val !== this.solution[row][col]) {
+      this.errors[row][col] = true;
+      this.grid[row][col] = 0; // clear wrong number
+      return;
+    }
+
+ // 2️⃣ Then check for general Sudoku conflicts
+    this.errors[row][col] = this.hasConflict(row, col, val);
+
+    // 3️⃣ Finally check if the board is solved
+    this.solved = this.isSolved();
+  }
 }
+
+
+
