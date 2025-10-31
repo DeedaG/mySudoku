@@ -109,12 +109,110 @@
   pointer-events: auto; /* text inside still selectable if needed */
 }
 
-
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
+@media (max-width: 480px) {
+  .sudoku-wrapper {
+    margin-top: 10px;
+  }
 
+  .board-container {
+    padding: 1%;
+
+  display: inline-block; /* shrink to board width */
+  background-image: url('../../assets/green-2847123_1280.jpg');
+  
+  background-size: cover;
+  background-position: left top;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  }
+
+  .cell {
+    width: 8vw;
+    height: 8vw;
+    font-size: 3vw;
+  }
+  /* Bold 3x3 borders */
+.row:nth-child(3n) .cell { border-bottom: 3px solid #000; }
+.cell:nth-child(3n) { border-right: 3px solid #000; }
+
+/* Fixed cells */
+.cell.fixed {
+  background-color: rgba(238, 238, 238, 0.95);
+  font-weight: bold;
+  color: #333;
+}
+
+/* Editable hover/focus */
+.cell:not(.fixed):hover {
+  background-color: rgba(230, 240, 255, 0.85);
+}
+.cell:not(.fixed):focus {
+  background-color: rgba(208, 228, 255, 0.85);
+  box-shadow: inset 0 0 5px rgba(0, 100, 255, 0.4);
+}
+
+/* Error cells */
+.cell.error {
+  background-color: rgba(255, 204, 204, 0.9);
+  border-color: #ff6666;
+}
+
+
+  .new-game {
+      background-color: #4CAF50;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .board-container {
+    padding: 1%;
+    max-width: 98vw;
+
+    display: inline-block; /* shrink to board width */
+  background-image: url('../../assets/green-2847123_1280.jpg');
+  
+  background-size: cover;
+  background-position: left top;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  }
+
+  .cell {
+    font-size: 3vw;
+  }
+
+  /* Bold 3x3 borders */
+.row:nth-child(3n) .cell { border-bottom: 3px solid #000; }
+.cell:nth-child(3n) { border-right: 3px solid #000; }
+
+/* Fixed cells */
+.cell.fixed {
+  background-color: rgba(238, 238, 238, 0.95);
+  font-weight: bold;
+  color: #333;
+}
+
+/* Editable hover/focus */
+.cell:not(.fixed):hover {
+  background-color: rgba(230, 240, 255, 0.85);
+}
+.cell:not(.fixed):focus {
+  background-color: rgba(208, 228, 255, 0.85);
+  box-shadow: inset 0 0 5px rgba(0, 100, 255, 0.4);
+}
+
+/* Error cells */
+.cell.error {
+  background-color: rgba(255, 204, 204, 0.9);
+  border-color: #ff6666;
+}
+
+}
 
