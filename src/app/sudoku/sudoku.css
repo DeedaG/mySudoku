@@ -1,25 +1,70 @@
 .sudoku-wrapper {
   text-align: center;
   margin-top: 20px;
+  margin-top: 0 !important;
 }
 
 .new-game {
   background-color: #4CAF50;
   color: white;
   border: none;
-  padding: 10px 16px;
+  padding: 5px 8px;
   font-size: 16px;
   border-radius: 6px;
   cursor: pointer;
   margin-bottom: 20px;
+  margin-right: 90px;
+  position: relative;
+  z-index: 9999; 
+}
+
+.christi {
+  color: black;
+  background-color: white;
+  border: 5px;
+  border-color: white;
+  padding: 5px 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  margin-top: 50px;
+  margin-right: 90px;
+  position: relative;
+  z-index: 9999; 
+  font-family: cursive;
+}
+
+.title {
+  font-family: Georgia;
+  background-color: white;
+  border: 10px;
+  border-color: white;
+  padding: 20px 26px;
+  font-size: 32px;
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 40px;
+  margin-right: 30px;
+  position: relative;
+  z-index: 9999; 
+  }
+
+.new-game:hover {
+  background-color: #45a049;
+}
+
+
+.money-maker {
+  color: white;
+  border: none;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
   margin-right: 30px;
   position: relative;
   z-index: 9999; 
 }
 
-.new-game:hover {
-  background-color: #45a049;
-}
+
 
 /* Background surrounding the puzzle */
 .board-container {
@@ -168,6 +213,11 @@
     padding: 6px 10px;
     font-size: 12px;
   }
+  .title {
+    padding: 6px 10px;
+    font-size: 26px;
+    color: black !important;
+  }
 }
 
 @media (max-width: 360px) {
@@ -214,5 +264,34 @@
   border-color: #ff6666;
 }
 
+}
+
+/* --- ADDED LAYOUT FOR ADS + DONATE --- */
+.layout {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+.sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  align-items: center;
+}
+
+.puzzle-area {
+  flex: 1;
+}
+
+/* phones stack vertically */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+  }
 }
 

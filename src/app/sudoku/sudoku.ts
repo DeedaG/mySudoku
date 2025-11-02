@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AdsComponent } from '../components/ads/ads.component';
+import { DonateComponent } from "../components/donate/donate.component";
 
 @Component({
   selector: 'app-sudoku',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AdsComponent, DonateComponent],
   templateUrl: './sudoku.html',
   styleUrls: ['./sudoku.css']
 })
