@@ -8,11 +8,20 @@
 
   <!-- LEFT / TOP column -->
   <div class="sidebar">
-    <strong class="title">Play 🧩 Sudoku</strong>
-    <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
-    <app-ads></app-ads>
+    <strong class="title">🧩 Sudoku</strong>
     <app-donate></app-donate>
-    <div class="christi">Christi Games</div>
+    <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
+    <div class="difficulty">
+      <label >Difficulty</label>
+      <select [(ngModel)]="difficulty" (change)="onDifficultyChange()">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+        <option value="evil">Evil</option>
+      </select>
+    </div>
+
+    <app-ads></app-ads>
   </div>
 
   <!-- RIGHT column = puzzle + solved message -->
@@ -54,6 +63,7 @@
       </div>
 
     </div><!-- sudoku-wrapper -->
+    <div class="christi">Christi Games</div>
 
   </div><!-- puzzle-area -->
 

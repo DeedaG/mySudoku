@@ -4,7 +4,9 @@ declare global {
   }
 }
 
-import { Injectable } from '@angular/core';
+import { Injectable , Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,24 +16,27 @@ export class AdsenseService {
   private scriptLoaded = false;
   private scriptLoadingPromise: Promise<void> | null = null;
 
-  loadAdsense(): Promise<void> {
-    if (this.scriptLoaded) return Promise.resolve();
-    if (this.scriptLoadingPromise) return this.scriptLoadingPromise;
+constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-    this.scriptLoadingPromise = new Promise((resolve, reject) => {
-      const script = document.createElement('script');
-      script.async = true;
-      script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
-      script.setAttribute('data-ad-client', 'ca-pub-YOUR_AD_CLIENT_ID'); // replace with your client ID
-      script.onload = () => {
-        this.scriptLoaded = true;
-        resolve();
-      };
-      script.onerror = () => reject('AdSense script failed to load');
-      document.head.appendChild(script);
-    });
+loadAdsense() {
+    if (!isPlatformBrowser(this.platformId)) {
+      return; // <-- stop here on server
+    }
 
-    return this.scriptLoadingPromise;
+    const script = document.createElement('script');
+    script.async = true;
+
+    // replace YOUR_PUB_ID
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_PUB_ID';
+    script.crossOrigin = 'anonymous';
+
+    document.head.appendChild(script);
+
+    // after script load call adsbygoogle
+    script.onload = () => {
+      // @ts-ignore
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    };
   }
 
   refreshAds() {
@@ -46,3 +51,6 @@ export class AdsenseService {
     }
   }
 }
+
+
+

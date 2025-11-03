@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
+import { isPlatformBrowser } from '@angular/common';
+import { Inject, PLATFORM_ID } from '@angular/core';
+
 
 @Component({
   selector: 'app-sudoku',
@@ -17,25 +20,53 @@ export class SudokuComponent {
   errors: boolean[][] = [];
   solved = false;
   private solution: number[][] = [];
+  difficulty = 'medium'; // default
+  @Inject(PLATFORM_ID) private platformId: Object = {};
 
   constructor() {
-    this.newPuzzle();
   }
+
+  ngOnInit() {
+    this.loadDifficulty();
+    this.newPuzzle(); // initial fill
+  }
+
 
   newPuzzle() {
     this.solved = false;
 
-   // Step 1: generate a full valid Sudoku solution
     const fullGrid = this.generateFullGrid();
-    this.solution = fullGrid.map(row => [...row]); // save the solution
+    this.solution = fullGrid.map(row => [...row]);
 
-    // Step 2: remove some numbers to create the puzzle
-    const puzzleGrid = this.createPuzzle(fullGrid, 40); // remove 40 cells
+    let blanks = 40; // default
+
+    switch (this.difficulty) {
+      case 'easy': blanks = 30; break;
+      case 'medium': blanks = 40; break;
+      case 'hard': blanks = 55; break;
+      case 'evil': blanks = 65; break;
+    }
+
+    const puzzleGrid = this.createPuzzle(fullGrid, blanks);
 
     this.grid = puzzleGrid.map(row => [...row]);
     this.fixed = puzzleGrid.map(row => row.map(num => num !== 0));
     this.errors = Array.from({ length: 9 }, () => Array(9).fill(false));
   }
+
+  loadDifficulty() {
+  if (isPlatformBrowser(this.platformId)) {
+    const diff = localStorage.getItem('difficulty');
+    if (diff) this.difficulty = diff;
+    }
+  }
+
+saveDifficulty() {
+  if (isPlatformBrowser(this.platformId)) {
+    localStorage.setItem('difficulty', this.difficulty);
+  }
+}
+
 
   // Generate a full valid Sudoku solution
   generateFullGrid(): number[][] {
@@ -61,6 +92,11 @@ export class SudokuComponent {
       }
     }
     return true; // all cells filled
+  }
+
+  onDifficultyChange() {
+    this.saveDifficulty();     // persist
+    this.newPuzzle();          // regenerate board immediately
   }
 
   // Remove 'count' numbers randomly to create a puzzle

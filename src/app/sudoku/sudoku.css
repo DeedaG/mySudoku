@@ -16,6 +16,7 @@
   margin-right: 90px;
   position: relative;
   z-index: 9999; 
+  margin-top: 40px;
 }
 
 .christi {
@@ -26,8 +27,8 @@
   padding: 5px 8px;
   font-size: 14px;
   border-radius: 6px;
-  margin-top: 50px;
-  margin-right: 90px;
+  margin-top: 5px;
+  margin-left: 75%;
   position: relative;
   z-index: 9999; 
   font-family: cursive;
@@ -38,20 +39,19 @@
   background-color: white;
   border: 10px;
   border-color: white;
-  padding: 20px 26px;
+  padding: 10px 16px;
   font-size: 32px;
   border-radius: 6px;
-  padding: 10px 16px;
-  margin-bottom: 40px;
+  padding: 5px 8px;
+  margin-bottom: 1px;
   margin-right: 30px;
   position: relative;
   z-index: 9999; 
-  }
+}
 
 .new-game:hover {
   background-color: #45a049;
 }
-
 
 .money-maker {
   color: white;
@@ -64,6 +64,27 @@
   z-index: 9999; 
 }
 
+.difficulty {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 5px 8px;
+  font-size: 16px;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  margin-right: 30px;
+  position: relative;
+  z-index: 9999; 
+}
+
+.sidebar select {
+  background-color: #4CAF50;
+  font-size: 16px;
+  margin-left: 10px;
+  border: none;
+  position: relative;
+  z-index: 9999; 
+}
 
 
 /* Background surrounding the puzzle */
@@ -71,8 +92,6 @@
   display: inline-block; /* shrink to board width */
   padding: 20px;          /* space around board */
   background-image: url('../../assets/green-2847123_1280.jpg');
-  
-  
   background-size: cover;
   background-position: left top;
   border-radius: 12px;
@@ -153,6 +172,26 @@
 .solved-message > * {
   pointer-events: auto; /* text inside still selectable if needed */
 }
+
+.cell {
+  position: relative;
+}
+
+.note-display {
+  font-size: 10px;
+  line-height: 10px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: #666;
+  pointer-events: none;
+}
+
+
 
 @keyframes fadeIn {
   from { opacity: 0; }

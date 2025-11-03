@@ -8,12 +8,13 @@
   border: none;
   color: #111;
   font-weight: 600;
-  font-size: 1rem;
-  padding: 0.6rem 1.2rem;
+  font-size: .5rem;
+  padding: 0.6rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
+  margin-right: 30px;
   transition: background-color 0.2s;
-}
+ }
 
 .donate-button:hover {
   background-color: #6bb6f7;
