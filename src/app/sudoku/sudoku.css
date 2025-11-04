@@ -407,11 +407,6 @@ html, body {
     margin-left: 15px !important;
   }
 
-  /* remove/override any large margin-left you applied on elements (e.g., .christi) */
-  .christi {
-    width: 20px;
-    align-self: flex-end; /* keeps it on the right side of the sidebar area if you want */
-  }
 
   /* make sure title and controls respect the safe padding */
   .title .new-game {
