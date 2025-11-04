@@ -330,7 +330,7 @@
     flex-direction: column;
   }
   .sidebar {
-    width: 95%;
+    width: 100%;
     align-items: flex-start; /* instead of center */
   }
 
