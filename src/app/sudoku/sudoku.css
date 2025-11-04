@@ -401,7 +401,10 @@ html, body {
 /* specifically for phones — also override any big negative/large left margins */
 @media (max-width: 480px) {
   .sidebar {
-    padding-left: 15px;
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    align-items: flex-start;
+    margin-left: 5px !important;
   }
 
   /* remove/override any large margin-left you applied on elements (e.g., .christi) */
@@ -413,13 +416,11 @@ html, body {
   /* make sure title and controls respect the safe padding */
   .title,
   .controls-row,
-  .new-game,
-  .difficulty,
-  .money-maker {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-    padding-left: 0 !important;
-    padding-right: 0 !important;
+  .new-game {
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
   }
 
   /* if you still need visual spacing from the left edge, use padding on the sidebar */
