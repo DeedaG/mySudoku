@@ -358,13 +358,17 @@
     width: 90%;
   }
 
+  .title {
+    width: 90%;
+  }
+
   .new-game {
     margin-bottom: 0;
   }
   .difficulty {
     margin-top: 40px;
     margin-left: 0; /* remove weird right pushes */
-    margin-right: 0;
+    margin-right: 10px;
     margin-bottom: 0;
   }
 
@@ -374,6 +378,7 @@
     flex-direction: row;
     gap: .75rem;
     width: 100%;
+    margin: 5px;
   }
 }
 
