@@ -377,3 +377,57 @@
 
 }
 
+/* make sure the browser uses the device's safe area (also ensure meta viewport is present) */
+html, body {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* safe-area padding for devices with notches (iPhone X and later) */
+.layout {
+  /* add a baseline padding so things don't touch the very edge on small devices */
+  padding-left: max(12px, env(safe-area-inset-left));
+  padding-right: max(12px, env(safe-area-inset-right));
+  box-sizing: border-box;
+}
+
+/* ensure children don't overflow the padded area */
+.sidebar,
+.puzzle-area {
+  box-sizing: border-box;
+}
+
+/* specifically for phones — also override any big negative/large left margins */
+@media (max-width: 480px) {
+  .sidebar {
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    align-items: flex-start;
+  }
+
+  /* remove/override any large margin-left you applied on elements (e.g., .christi) */
+  .christi {
+    margin-left: 0 !important;
+    align-self: flex-end; /* keeps it on the right side of the sidebar area if you want */
+  }
+
+  /* make sure title and controls respect the safe padding */
+  .title,
+  .controls-row,
+  .new-game,
+  .difficulty,
+  .money-maker {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* if you still need visual spacing from the left edge, use padding on the sidebar */
+  .sidebar {
+    padding-inline-start: 12px; /* logical padding that respects text direction */
+  }
+}
+
+
