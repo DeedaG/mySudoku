@@ -416,8 +416,18 @@ html, body {
   }
 
   /* make sure title and controls respect the safe padding */
-  .title,
-  .controls-row,
+  .title {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
+  .controls-row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+  }
   .difficulty {
     margin-left: 0 !important;
     margin-right: 0 !important;
@@ -426,7 +436,7 @@ html, body {
   }
 
   .new-game {
-    margin-left: 0 !important;
+    margin-left: 5px !important;
     margin-right: 0 !important;
     padding-left: 0 !important;
     padding-right: 5px !important;
