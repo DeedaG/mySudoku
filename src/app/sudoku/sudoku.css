@@ -332,6 +332,8 @@
   .sidebar {
     width: 100%;
     align-items: flex-start; /* instead of center */
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .title {
