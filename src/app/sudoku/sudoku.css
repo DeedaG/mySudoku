@@ -401,8 +401,7 @@ html, body {
 /* specifically for phones — also override any big negative/large left margins */
 @media (max-width: 480px) {
   .sidebar {
-    padding-left: 25px;
-    align-items: flex-start;
+    padding-left: 15px;
   }
 
   /* remove/override any large margin-left you applied on elements (e.g., .christi) */
