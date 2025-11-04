@@ -198,7 +198,59 @@
   to { opacity: 1; }
 }
 
-@media (max-width: 480px) {
+/* --- ADDED LAYOUT FOR ADS + DONATE --- */
+.layout {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+}
+
+.sidebar {
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  align-items: center;
+}
+
+.puzzle-area {
+  flex: 1;
+}
+
+/* phones stack vertically */
+@media (max-width: 768px) {
+  .layout {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    align-items: flex-start; /* instead of center */
+  }
+
+  .title {
+    width: 90%;
+  }
+
+  .new-game {
+    margin-bottom: 0;
+  }
+  .difficulty {
+    margin-top: 40px;
+    margin-left: 0; /* remove weird right pushes */
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  /* put new game + difficulty on same row */
+  .sidebar .controls-row {
+    display: flex;
+    flex-direction: row;
+    gap: .75rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 485px) {
   .sudoku-wrapper {
     margin-top: 10px;
   }
@@ -324,62 +376,4 @@
 }
 
 }
-
-/* --- ADDED LAYOUT FOR ADS + DONATE --- */
-.layout {
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-}
-
-.sidebar {
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-  gap: .75rem;
-  align-items: center;
-}
-
-.puzzle-area {
-  flex: 1;
-}
-
-/* phones stack vertically */
-@media (max-width: 768px) {
-  .layout {
-    flex-direction: column;
-  }
-  .sidebar {
-    width: 100%;
-    align-items: flex-start; /* instead of center */
-  }
-
-  .title {
-    width: 90%;
-  }
-
-  .title {
-    width: 90%;
-  }
-
-  .new-game {
-    margin-bottom: 0;
-  }
-  .difficulty {
-    margin-top: 40px;
-    margin-left: 0; /* remove weird right pushes */
-    margin-right: 10px;
-    margin-bottom: 0;
-  }
-
-  /* put new game + difficulty on same row */
-  .sidebar .controls-row {
-    display: flex;
-    flex-direction: row;
-    gap: .75rem;
-    width: 100%;
-    margin: 5px;
-  }
-}
-
 
