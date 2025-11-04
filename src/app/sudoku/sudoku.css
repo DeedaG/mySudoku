@@ -401,8 +401,7 @@ html, body {
 /* specifically for phones — also override any big negative/large left margins */
 @media (max-width: 480px) {
   .sidebar {
-    padding-left: env(safe-area-inset-left);
-    padding-right: env(safe-area-inset-right);
+    padding-left: 5px;
     align-items: flex-start;
   }
 
