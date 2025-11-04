@@ -27,7 +27,7 @@ loadAdsense() {
     script.async = true;
 
     // replace YOUR_PUB_ID
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_PUB_ID';
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-5670541810503551';
     script.crossOrigin = 'anonymous';
 
     document.head.appendChild(script);
