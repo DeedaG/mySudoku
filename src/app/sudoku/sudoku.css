@@ -404,12 +404,12 @@ html, body {
     padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     align-items: flex-start;
-    margin-left: 5px !important;
+    margin-left: 15px !important;
   }
 
   /* remove/override any large margin-left you applied on elements (e.g., .christi) */
   .christi {
-    margin-left: 0 !important;
+    width: 20px;
     align-self: flex-end; /* keeps it on the right side of the sidebar area if you want */
   }
 
