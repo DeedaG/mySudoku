@@ -198,7 +198,7 @@
   to { opacity: 1; }
 }
 
-@media (max-width: 510px) {
+@media (max-width: 480px) {
   .sudoku-wrapper {
     margin-top: 10px;
   }
