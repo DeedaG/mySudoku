@@ -405,6 +405,7 @@ html, body {
     padding-right: env(safe-area-inset-right);
     align-items: flex-start;
     margin-left: 15px !important;
+    margin-right: 5px;
   }
 
 
