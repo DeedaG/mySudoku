@@ -411,6 +411,7 @@ html, body {
   padding-left: env(safe-area-inset-left);
     padding-right: env(safe-area-inset-right);
     align-items: flex-end;
+    padding-right: 5px !important;
  }
 
   /* make sure title and controls respect the safe padding */
@@ -419,7 +420,7 @@ html, body {
     margin-left: 15px !important;
     margin-right: 0 !important;
     padding-left: 5px !important;
-    padding-right: 5px !important;
+    padding-right: 0!important;
     
   }
   .controls-row {
@@ -432,7 +433,7 @@ html, body {
     margin-left: 0 !important;
     margin-right: 0 !important;
     padding-left: 0 !important;
-    padding-right: 0 !important;
+    padding-right: 5 !important;
   }
 
   /* if you still need visual spacing from the left edge, use padding on the sidebar */
