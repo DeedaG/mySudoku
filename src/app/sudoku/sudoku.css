@@ -407,26 +407,32 @@ html, body {
     margin-left: 15px !important;
     margin-right: 15px !important;
   }
-
+ .christi {
+  padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+    align-items: flex-end;
+ }
 
   /* make sure title and controls respect the safe padding */
   .title  {
+    width: 180px;
     margin-left: 15px !important;
-    margin-right: 5px !important;
+    margin-right: 0 !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
+    
   }
   .controls-row {
-    margin-left: 15px !important;
+    margin-left: 5px !important;
     margin-right: 5px !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
   }
   .new-game {
-    margin-left: 15px !important;
-    margin-right: 5px !important;
-    padding-left: 5px !important;
-    padding-right: 5px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 
   /* if you still need visual spacing from the left edge, use padding on the sidebar */
