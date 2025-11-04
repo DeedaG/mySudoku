@@ -11,15 +11,18 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
   <div class="sidebar">
     <strong class="title">🧩 Sudoku</strong>
     <app-donate></app-donate>
-    <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
-    <div class="difficulty">
-      <label >Difficulty</label>
-      <select [(ngModel)]="difficulty" (change)="onDifficultyChange()">
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-        <option value="evil">Evil</option>
-      </select>
+    <div class="controls-row">
+      <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
+
+      <div class="difficulty">
+        <label >Difficulty</label>
+        <select [(ngModel)]="difficulty" (change)="onDifficultyChange()">
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+          <option value="evil">Evil</option>
+        </select>
+      </div>
     </div>
 
     <app-ads></app-ads>

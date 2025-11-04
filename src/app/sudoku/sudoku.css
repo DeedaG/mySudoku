@@ -331,6 +331,30 @@
   }
   .sidebar {
     width: 100%;
+    align-items: flex-start; /* instead of center */
+  }
+
+  .title {
+    width: 95%;
+  }
+
+  .new-game {
+    margin-bottom: 0;
+  }
+  .difficulty {
+    margin-top: 40px;
+    margin-left: 0; /* remove weird right pushes */
+    margin-right: 0;
+    margin-bottom: 0;
+  }
+
+  /* put new game + difficulty on same row */
+  .sidebar .controls-row {
+    display: flex;
+    flex-direction: row;
+    gap: .75rem;
+    width: 100%;
   }
 }
+
 
