@@ -410,13 +410,13 @@ html, body {
 
 
   /* make sure title and controls respect the safe padding */
-  .title .new-game {
+  .title  {
     margin-left: 15px !important;
     margin-right: 5px !important;
     padding-left: 5px !important;
     padding-right: 5px !important;
   }
-  .controls-row .new-game {
+  .controls-row {
     margin-left: 15px !important;
     margin-right: 5px !important;
     padding-left: 5px !important;
