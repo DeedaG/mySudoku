@@ -24,6 +24,9 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
         </select>
       </div>
     </div>
+    <button class="notes-button" (click)="toggleNotes()">
+      {{ notesMode ? 'Notes On' : 'Notes Off' }}
+    </button>
 
     <app-ads></app-ads>
   </div>
@@ -46,19 +49,46 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
           @for (row of grid; track trackByIndex($index, row); let i = $index) {
             <div class="row">
               @for (cell of row; track trackByIndex($index, cell); let j = $index) {
-                <input
-                  class="cell"
-                  type="text"
-                  maxlength="1"
-                  inputmode="numeric"
-                  [(ngModel)]="grid[i][j]"
-                  [readOnly]="fixed[i][j]"
-                  [class.fixed]="fixed[i][j]"
-                  [class.error]="errors[i][j]"
-                  (ngModelChange)="validateCell(i, j)"
-                  (keydown)="onKeyDown($event)"
-                  (wheel)="onWheel($event)"
-                />
+                
+                  <div class="cell-wrapper">
+
+                  @if (!notesMode) {
+                    <input
+                      class="cell"
+                      type="text"
+                      maxlength="1"
+                      [(ngModel)]="grid[i][j].value"
+                      (ngModelChange)="onCellInput(i, j, $event)"
+                      [readOnly]="fixed[i][j]"
+                      [class.fixed]="fixed[i][j]"
+                      [class.error]="errors[i][j]"
+                      (click)="onCellTap(i, j)"
+                      (keydown)="onKeyDown($event)"
+                    />
+                  }
+
+                  @if (notesMode) {
+                    <input
+                    class="cell"
+                    type="text"
+                    maxlength="1"
+                    [(ngModel)]="grid[i][j].value"
+                    (input)="onCellInput(i, j, $event)"
+                    [readOnly]="fixed[i][j]"
+                    [class.fixed]="fixed[i][j]"
+                    [class.error]="errors[i][j]"
+                    (click)="onCellTap(i, j)"
+                    (keydown)="onKeyDown($event)"
+                  />
+
+                    <div class="note-display">
+                      @for (n of grid[i][j].notes; track trackByIndex($index, n); let idx = $index) {
+                        <div >{{n}}</div>
+                      }
+                  </div>
+                  }
+                </div>
+
               }
             </div>
           }

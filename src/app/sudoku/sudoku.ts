@@ -15,12 +15,14 @@ import { Inject, PLATFORM_ID } from '@angular/core';
   styleUrls: ['./sudoku.css']
 })
 export class SudokuComponent {
-  grid: number[][] = [];
+  grid: CellData[][] = [];
+  emptyCell: string = '';
   fixed: boolean[][] = [];
   errors: boolean[][] = [];
   solved = false;
   private solution: number[][] = [];
   difficulty = 'medium'; // default
+  notesMode = false;
   @Inject(PLATFORM_ID) private platformId: Object = {};
 
   constructor() {
@@ -28,6 +30,13 @@ export class SudokuComponent {
 
   ngOnInit() {
     this.loadDifficulty();
+    this.grid = Array.from({ length: 9 }, () =>
+      Array.from({ length: 9 }, () => ({
+        value: '',
+        notes: []
+      }))
+    );
+
     this.newPuzzle(); // initial fill
   }
 
@@ -48,8 +57,13 @@ export class SudokuComponent {
     }
 
     const puzzleGrid = this.createPuzzle(fullGrid, blanks);
+    this.grid = puzzleGrid.map(row =>
+        row.map(num => ({
+          value: num === 0 ? '' : num,
+          notes: []
+        }))
+      );
 
-    this.grid = puzzleGrid.map(row => [...row]);
     this.fixed = puzzleGrid.map(row => row.map(num => num !== 0));
     this.errors = Array.from({ length: 9 }, () => Array(9).fill(false));
   }
@@ -114,6 +128,35 @@ saveDifficulty() {
     return puzzle;
   }
 
+  toggleNotes() {
+    this.notesMode = !this.notesMode;
+  }
+
+  onCellInput(i: number, j: number, event: any)  {
+    const v = event;
+    if (this.notesMode) {
+      const d = Number(v);
+      const cellNotes = this.grid[i][j].notes;
+
+      if (!cellNotes) this.grid[i][j].notes = [];
+      // toggle note
+      if (!cellNotes.includes(d))
+      {
+        this.grid[i][j].notes = [...cellNotes, d];
+      } else {
+        var updated = cellNotes.splice(j,1);
+        this.grid[i][j].notes = updated;
+      }
+      this.grid[i][j].value = Number(0);
+      return;
+    } else {
+      this.grid[i][j].value = Number(v);
+      this.errors[i][j] = this.solution[i][j] != Number(v);
+      this.validateCell(i,j);
+    }
+  }
+
+
   // Check conflicts for a specific grid (used in generation)
   hasConflictGrid(grid: number[][], row: number, col: number, val: number): boolean {
     for (let i = 0; i < 9; i++) {
@@ -138,22 +181,32 @@ saveDifficulty() {
   }
 
   onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'ArrowUp' || event.key === 'ArrowDown') event.preventDefault();
+    if ( event.key === 'ArrowUp' || event.key === 'ArrowDown') event.preventDefault();
   }
 
   onWheel(event: WheelEvent) { event.preventDefault(); }
 
+  onCellTap(i: number, j: number) {
+  if (this.notesMode) {
+    // delete main value, keep notes as-is
+    this.grid[i][j].value = '';
+  } else {
+    // delete value normally
+    this.grid[i][j].value = '';
+  }
+}
+
 
   hasConflict(row: number, col: number, val: number): boolean {
     for (let i = 0; i < 9; i++) {
-      if ((i !== col && this.grid[row][i] === val) ||
-          (i !== row && this.grid[i][col] === val)) return true;
+      if ((i !== col && this.grid[row][i].value === val) ||
+          (i !== row && this.grid[i][col].value === val)) return true;
     }
     const startRow = Math.floor(row / 3) * 3;
     const startCol = Math.floor(col / 3) * 3;
     for (let r = startRow; r < startRow + 3; r++) {
       for (let c = startCol; c < startCol + 3; c++) {
-        if ((r !== row || c !== col) && this.grid[r][c] === val) return true;
+        if ((r !== row || c !== col) && this.grid[r][c].value === val) return true;
       }
     }
     return false;
@@ -162,8 +215,8 @@ saveDifficulty() {
   isSolved(): boolean {
     for (let i = 0; i < 9; i++) {
       for (let j = 0; j < 9; j++) {
-        const val = this.grid[i][j];
-        if (val === 0 || this.hasConflict(i, j, val)) return false;
+        const val = this.grid[i][j].value;
+        if (val === 0 || val != "" && this.hasConflict(i, j, val)) return false;
       }
     }
     return true;
@@ -171,32 +224,32 @@ saveDifficulty() {
 
   trackByIndex(index: number, _item: any): number { return index; }
 
-// 👇 modify validateCell to also check against the solution
   validateCell(row: number, col: number) {
-    const val = Number(this.grid[row][col]);
+    const val = Number(this.grid[row][col].value);
 
-    // Ignore empty or invalid input
-    if (!val || val < 1 || val > 9) {
-      this.grid[row][col] = 0;
+    if (val === 0 || !val || val < 1 || val > 9) {
+      this.grid[row][col].value = '';
       this.errors[row][col] = false;
       this.solved = false;
       return;
     }
 
-    // 1️⃣ First, ensure the player typed the correct number for this square
+    // WRONG NUMBER vs solution
     if (val !== this.solution[row][col]) {
       this.errors[row][col] = true;
-      this.grid[row][col] = 0; // clear wrong number
+      this.grid[row][col].value = '';   // ← changed here
       return;
     }
 
- // 2️⃣ Then check for general Sudoku conflicts
     this.errors[row][col] = this.hasConflict(row, col, val);
-
-    // 3️⃣ Finally check if the board is solved
     this.solved = this.isSolved();
   }
 }
 
 
+
+interface CellData {
+  notes: number[]
+  value: number | ''
+}
 
