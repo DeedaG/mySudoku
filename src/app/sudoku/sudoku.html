@@ -3,8 +3,6 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
      crossorigin="anonymous"></script>
 
-     
-
 <div class="layout">
 
   <!-- LEFT / TOP column -->
@@ -24,9 +22,14 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
         </select>
       </div>
     </div>
-    <button class="notes-button" (click)="toggleNotes()">
-      {{ notesMode ? 'Notes On' : 'Notes Off' }}
-    </button>
+    <div class="notes-and-timer">
+      <button class="notes-button" (click)="toggleNotes()">
+        {{ notesMode ? 'Notes On' : 'Notes Off' }}
+      </button>
+      <div class="timer">
+        Time: {{ formattedTime }}
+      </div>
+    </div>
 
     <app-ads></app-ads>
   </div>
@@ -34,9 +37,12 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
   <!-- RIGHT column = puzzle + solved message -->
   <div class="puzzle-area">
 
-    @if (solved && celebrate()) {
+    @if (solved) {
       <div class="solved-message">
-        🎉 Congratulations! You solved the puzzle!
+        <div >🎉 Congratulations! 
+          <span style="font-size: 20px;">You solved the puzzle in {{formattedTime}} minutes!</span>
+        </div>
+        
       </div>
     }
 

@@ -23,6 +23,9 @@ export class SudokuComponent {
   solved = false;
   difficulty = 'medium';
   notesMode = false;
+  startTime!: number;
+  elapsedMs = 0;
+  intervalId: any;
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
@@ -52,6 +55,7 @@ export class SudokuComponent {
     this.fixed = puzzleGrid.map(row => row.map(num => num !== 0));
     this.errors = Array.from({ length: 9 }, () => Array(9).fill(false));
     this.solved = false;
+    this.startTimer();
   }
 
   loadDifficulty() {
@@ -210,6 +214,8 @@ hasConflict(row: number, col: number, val: number): boolean {
       if (v === '' || v !== this.solution[r][c]) return false;
     }
   }
+  this.celebrate();
+  this.onSolved();
   return true;
 }
 
@@ -221,10 +227,33 @@ hasConflict(row: number, col: number, val: number): boolean {
       spread: 55,
       origin: { x: 0 }
     });
-
-    return true;
   }
 
+
+  startTimer() {
+    this.startTime = Date.now();
+    this.intervalId = setInterval(() => {
+      this.elapsedMs = Date.now() - this.startTime;
+    }, 1000); // update every sec
+  }
+
+  stopTimer() {
+    clearInterval(this.intervalId);
+  }
+
+  // you can call this when puzzle is solved
+  onSolved() {
+    this.stopTimer();
+    console.log("final time (ms):", this.elapsedMs);
+  }
+
+  // optional = convert ms to mm:ss
+  get formattedTime(): string {
+    const sec = Math.floor(this.elapsedMs / 1000);
+    const mm = Math.floor(sec / 60).toString().padStart(2, '0');
+    const ss = (sec % 60).toString().padStart(2, '0');
+    return `${mm}:${ss}`;
+  }
 
   trackByIndex(index: number, _item: any): number { return index; }
 
