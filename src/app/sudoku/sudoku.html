@@ -34,7 +34,7 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
   <!-- RIGHT column = puzzle + solved message -->
   <div class="puzzle-area">
 
-    @if (solved) {
+    @if (solved && celebrate()) {
       <div class="solved-message">
         🎉 Congratulations! You solved the puzzle!
       </div>

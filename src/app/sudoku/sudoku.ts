@@ -3,7 +3,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
-import { Inject, PLATFORM_ID } from '@angular/core';
+import { Inject, PLATFORM_ID } from '@angular/core'
+import confetti from 'canvas-confetti';
 
 @Component({
   selector: 'app-sudoku',
@@ -211,6 +212,19 @@ hasConflict(row: number, col: number, val: number): boolean {
   }
   return true;
 }
+
+  celebrate() {
+
+      confetti({
+      particleCount: 100,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0 }
+    });
+
+    return true;
+  }
+
 
   trackByIndex(index: number, _item: any): number { return index; }
 

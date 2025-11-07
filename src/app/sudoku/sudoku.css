@@ -186,6 +186,8 @@ html, body {
   align-items: center;
 }
 
+
+
 /* transparent input that gets key presses */
 .cell-input {
   position: absolute;
@@ -299,7 +301,7 @@ html, body {
   color: purple;
   text-align: center;
   background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(3px);
+ 
   z-index: 9998;
   pointer-events: none;
 }
