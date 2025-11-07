@@ -123,6 +123,85 @@ html, body {
   margin-top: 0;
 }
 
+/* --------------------------------------------------
+   shared cell sizing
+-------------------------------------------------- */
+.cell-wrapper {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.cell-notes {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #444;
+  box-sizing: border-box;
+}
+
+/* --------------------------------------------------
+   NOTES MODE
+-------------------------------------------------- */
+.notes-mode {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 1px solid #444;
+}
+
+/* main value in notes mode */
+.notes-mode .cell-value {
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 40px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* notes grid  */
+.notes-mode .notes {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(100% - 6px);
+  height: calc(100% - 6px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  pointer-events: none;
+  color: #333;
+}
+
+/* each little note number */
+.notes-mode .note {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* transparent input that gets key presses */
+.cell-input {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  font-size: 1px; /* basically invisible */
+  color: transparent; /* hide cursor text */
+  z-index: 5;
+  caret-color: transparent;
+}
+
+
 /* --- BOARD CONTAINER --- */
 .board-container {
   display: inline-block;
@@ -149,9 +228,6 @@ html, body {
   grid-template-columns: repeat(9, 1fr);
 }
 
-.cell-wrapper {
-  position: relative;
-}
 
 .cell {
   width: 40px;

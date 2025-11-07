@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
-import { isPlatformBrowser } from '@angular/common';
 import { Inject, PLATFORM_ID } from '@angular/core';
-
 
 @Component({
   selector: 'app-sudoku',
@@ -15,35 +13,24 @@ import { Inject, PLATFORM_ID } from '@angular/core';
   styleUrls: ['./sudoku.css']
 })
 export class SudokuComponent {
-  grid: CellData[][] = [];
-  emptyCell: string = '';
+
+  valuesGrid: (number | '')[][] = [];
+  notesGrid: number[][][] = [];
   fixed: boolean[][] = [];
   errors: boolean[][] = [];
+  solution: number[][] = [];
   solved = false;
-  private solution: number[][] = [];
-  difficulty = 'medium'; // default
+  difficulty = 'medium';
   notesMode = false;
-  @Inject(PLATFORM_ID) private platformId: Object = {};
 
-  constructor() {
-  }
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
     this.loadDifficulty();
-    this.grid = Array.from({ length: 9 }, () =>
-      Array.from({ length: 9 }, () => ({
-        value: '',
-        notes: []
-      }))
-    );
-
-    this.newPuzzle(); // initial fill
+    this.newPuzzle();
   }
 
-
   newPuzzle() {
-    this.solved = false;
-
     const fullGrid = this.generateFullGrid();
     this.solution = fullGrid.map(row => [...row]);
 
@@ -57,15 +44,13 @@ export class SudokuComponent {
     }
 
     const puzzleGrid = this.createPuzzle(fullGrid, blanks);
-    this.grid = puzzleGrid.map(row =>
-        row.map(num => ({
-          value: num === 0 ? '' : num,
-          notes: []
-        }))
-      );
-
+    this.valuesGrid = puzzleGrid.map(row => row.map(num => num === 0 ? '' : num));
+    this.notesGrid = Array.from({ length: 9 }, () =>
+      Array.from({ length: 9 }, () => [])
+    );
     this.fixed = puzzleGrid.map(row => row.map(num => num !== 0));
     this.errors = Array.from({ length: 9 }, () => Array(9).fill(false));
+    this.solved = false;
   }
 
   loadDifficulty() {
@@ -81,32 +66,41 @@ saveDifficulty() {
   }
 }
 
-
-  // Generate a full valid Sudoku solution
-  generateFullGrid(): number[][] {
-    const grid: number[][] = Array.from({ length: 9 }, () => Array(9).fill(0));
-    this.fillGrid(grid);
-    return grid;
+clearCell(row: number, col: number) {
+  this.valuesGrid[row][col] = '';
+  if (!this.fixed[row][col]) {
+    this.notesGrid[row][col] = [];
   }
+}
 
-  fillGrid(grid: number[][]): boolean {
-    for (let row = 0; row < 9; row++) {
-      for (let col = 0; col < 9; col++) {
-        if (grid[row][col] === 0) {
-          const numbers = this.shuffle([...Array(9).keys()].map(n => n + 1));
-          for (const num of numbers) {
-            if (!this.hasConflictGrid(grid, row, col, num)) {
-              grid[row][col] = num;
-              if (this.fillGrid(grid)) return true;
-              grid[row][col] = 0;
-            }
+
+// Generate a full valid Sudoku solution
+generateFullGrid(): number[][] {
+  const grid: number[][] = Array.from({ length: 9 }, () => Array(9).fill(0));
+  this.fillGrid(grid);
+  return grid;
+}
+
+fillGrid(grid: number[][]): boolean {
+  for (let row = 0; row < 9; row++) {
+    for (let col = 0; col < 9; col++) {
+      if (grid[row][col] === 0) {
+        const numbers = this.shuffle([...Array(9).keys()].map(n => n + 1));
+        for (const num of numbers) {
+          if (!this.hasConflictGrid(grid, row, col, num)) {
+            grid[row][col] = num;
+            if (this.fillGrid(grid)) return true;
+            grid[row][col] = 0;
           }
-          return false; // no valid number found
         }
+        return false;
       }
     }
-    return true; // all cells filled
   }
+  return true;
+}
+
+  
 
   onDifficultyChange() {
     this.saveDifficulty();     // persist
@@ -132,29 +126,23 @@ saveDifficulty() {
     this.notesMode = !this.notesMode;
   }
 
-  onCellInput(i: number, j: number, event: any)  {
-    const v = event;
-    if (this.notesMode) {
-      const d = Number(v);
-      const cellNotes = this.grid[i][j].notes;
-
-      if (!cellNotes) this.grid[i][j].notes = [];
-      // toggle note
-      if (!cellNotes.includes(d))
-      {
-        this.grid[i][j].notes = [...cellNotes, d];
-      } else {
-        var updated = cellNotes.splice(j,1);
-        this.grid[i][j].notes = updated;
-      }
-      this.grid[i][j].value = Number(0);
-      return;
-    } else {
-      this.grid[i][j].value = Number(v);
-      this.errors[i][j] = this.solution[i][j] != Number(v);
-      this.validateCell(i,j);
+ onCellInput(i: number, j: number, v: any) {
+  if (this.notesMode) {
+    const d = Number(v);
+    if (d >= 1 && d <= 9) {
+      const notes = this.notesGrid[i][j];
+      const idx = notes.indexOf(d);
+      if (idx === -1) notes.push(d);
+      else notes.splice(idx, 1);
     }
+    return;
   }
+
+  const num = Number(v);
+  this.valuesGrid[i][j] = (num >= 1 && num <= 9) ? num : '';
+  this.validateCell(i, j);
+}
+
 
 
   // Check conflicts for a specific grid (used in generation)
@@ -189,67 +177,71 @@ saveDifficulty() {
   onCellTap(i: number, j: number) {
   if (this.notesMode) {
     // delete main value, keep notes as-is
-    this.grid[i][j].value = '';
+   // this.grid[i][j].value = '';
   } else {
     // delete value normally
-    this.grid[i][j].value = '';
+   // this.grid[i][j].value = '';
   }
 }
 
-
-  hasConflict(row: number, col: number, val: number): boolean {
-    for (let i = 0; i < 9; i++) {
-      if ((i !== col && this.grid[row][i].value === val) ||
-          (i !== row && this.grid[i][col].value === val)) return true;
-    }
-    const startRow = Math.floor(row / 3) * 3;
-    const startCol = Math.floor(col / 3) * 3;
-    for (let r = startRow; r < startRow + 3; r++) {
-      for (let c = startCol; c < startCol + 3; c++) {
-        if ((r !== row || c !== col) && this.grid[r][c].value === val) return true;
-      }
-    }
-    return false;
+hasConflict(row: number, col: number, val: number): boolean {
+  for (let i = 0; i < 9; i++) {
+    if ((i !== col && this.valuesGrid[row][i] === val) ||
+        (i !== row && this.valuesGrid[i][col] === val)) return true;
   }
+
+  const startRow = Math.floor(row / 3) * 3;
+  const startCol = Math.floor(col / 3) * 3;
+  for (let r = startRow; r < startRow + 3; r++) {
+    for (let c = startCol; c < startCol + 3; c++) {
+      if ((r !== row || c !== col) && this.valuesGrid[r][c] === val) return true;
+    }
+  }
+
+  return false;
+}
+
 
   isSolved(): boolean {
-    for (let i = 0; i < 9; i++) {
-      for (let j = 0; j < 9; j++) {
-        const val = this.grid[i][j].value;
-        if (val === 0 || val != "" && this.hasConflict(i, j, val)) return false;
-      }
+  for (let r = 0; r < 9; r++) {
+    for (let c = 0; c < 9; c++) {
+      const v = this.valuesGrid[r][c];
+      if (v === '' || v !== this.solution[r][c]) return false;
     }
-    return true;
   }
+  return true;
+}
 
   trackByIndex(index: number, _item: any): number { return index; }
 
   validateCell(row: number, col: number) {
-    const val = Number(this.grid[row][col].value);
+  const val = this.valuesGrid[row][col];
 
-    if (val === 0 || !val || val < 1 || val > 9) {
-      this.grid[row][col].value = '';
-      this.errors[row][col] = false;
-      this.solved = false;
-      return;
-    }
-
-    // WRONG NUMBER vs solution
-    if (val !== this.solution[row][col]) {
-      this.errors[row][col] = true;
-      this.grid[row][col].value = '';   // ← changed here
-      return;
-    }
-
-    this.errors[row][col] = this.hasConflict(row, col, val);
-    this.solved = this.isSolved();
+  // empty or non-number
+  if (val === '' || typeof val !== 'number') {
+    this.errors[row][col] = false;
+    this.solved = false;
+    return;
   }
+
+  // wrong number vs solution
+  if (val !== this.solution[row][col]) {
+    this.errors[row][col] = true;
+    this.valuesGrid[row][col] = '';
+    return;
+  }
+
+  // correct number
+  this.errors[row][col] = this.hasConflict(row, col, val);
+  if (!this.errors[row][col]) {
+    // CLEAN NOTES when correct
+    this.notesGrid[row][col] = [];
+  }
+
+  this.solved = this.isSolved();
+}
 }
 
 
 
-interface CellData {
-  notes: number[]
-  value: number | ''
-}
 

@@ -45,19 +45,16 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
       <!-- Container with background image -->
       <div class="board-container">
         <div class="sudoku-board">
-
-          @for (row of grid; track trackByIndex($index, row); let i = $index) {
+          @for (row of valuesGrid; track trackByIndex($index, row); let i = $index) {
             <div class="row">
-              @for (cell of row; track trackByIndex($index, cell); let j = $index) {
-                
+            @for (_ of row; track trackByIndex($index, _); let j = $index) {
                   <div class="cell-wrapper">
-
                   @if (!notesMode) {
                     <input
                       class="cell"
                       type="text"
                       maxlength="1"
-                      [(ngModel)]="grid[i][j].value"
+                      [(ngModel)]="valuesGrid[i][j]"
                       (ngModelChange)="onCellInput(i, j, $event)"
                       [readOnly]="fixed[i][j]"
                       [class.fixed]="fixed[i][j]"
@@ -68,24 +65,26 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
                   }
 
                   @if (notesMode) {
-                    <input
-                    class="cell"
-                    type="text"
-                    maxlength="1"
-                    [(ngModel)]="grid[i][j].value"
-                    (input)="onCellInput(i, j, $event)"
-                    [readOnly]="fixed[i][j]"
-                    [class.fixed]="fixed[i][j]"
-                    [class.error]="errors[i][j]"
-                    (click)="onCellTap(i, j)"
-                    (keydown)="onKeyDown($event)"
-                  />
-
-                    <div class="note-display">
-                      @for (n of grid[i][j].notes; track trackByIndex($index, n); let idx = $index) {
-                        <div >{{n}}</div>
-                      }
-                  </div>
+                    <div class="cell notes-mode">
+                      <div class="cell-value">
+                        {{ valuesGrid[i][j] }}
+                      </div>
+                      <div class="notes">
+                        @for (n of notesGrid[i][j]; track trackByIndex($index, n)) {
+                          <div class="note">{{ n }}</div>
+                        }
+                      </div>
+                      <input
+                        class="cell-input"
+                        type="text"
+                        maxlength="1"
+                        (ngModelChange)="onCellInput(i, j, $event)"
+                        [ngModel]="''"  
+                        [readOnly]="fixed[i][j]"
+                        (click)="onCellTap(i, j)"
+                        (keydown)="onKeyDown($event)"
+                      />
+                    </div>
                   }
                 </div>
 
