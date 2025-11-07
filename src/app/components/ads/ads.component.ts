@@ -7,10 +7,9 @@ import { AdsenseService } from '../../services/adsense.service';
   standalone: true,
   template: `
     <ins class="adsbygoogle"
-      style="display:block"
-      data-ad-format="auto"
-      data-full-width-responsive="true">
-    </ins>
+     style="display:block; width:100%; height:250px;"
+     data-ad-client="ca-pub-5670541810503551"
+     data-ad-slot="xxxx"></ins>
   `
 })
 export class AdsComponent implements OnInit {

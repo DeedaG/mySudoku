@@ -18,26 +18,29 @@ export class AdsenseService {
 
 constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
-loadAdsense() {
-    if (!isPlatformBrowser(this.platformId)) {
-      return; // <-- stop here on server
-    }
-
-    const script = document.createElement('script');
-    script.async = true;
-
-    // replace YOUR_PUB_ID
-    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=pub-5670541810503551';
-    script.crossOrigin = 'anonymous';
-
-    document.head.appendChild(script);
-
-    // after script load call adsbygoogle
-    script.onload = () => {
-      // @ts-ignore
+ngAfterViewInit() {
+  setTimeout(() => {
+    try {
+      // important: only push *here*
       (window.adsbygoogle = window.adsbygoogle || []).push({});
-    };
-  }
+    } catch(e){}
+  });
+}
+
+
+loadAdsense() {
+  if (!isPlatformBrowser(this.platformId)) return;
+
+  if (this.scriptLoaded) return;
+
+  this.scriptLoaded = true;
+
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551';
+  script.crossOrigin = 'anonymous';
+  document.head.appendChild(script);
+}
 
   refreshAds() {
     if (window.adsbygoogle) {
