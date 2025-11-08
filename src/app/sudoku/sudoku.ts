@@ -191,7 +191,9 @@ toggleNote(i: number, j: number, d: number) {
   onWheel(event: WheelEvent) { event.preventDefault(); }
 
   onCellTap(i: number, j: number) {
-    this.valuesGrid[i][j] = '';
+    if(!this.notesMode && !this.fixed[i][j]){
+      this.valuesGrid[i][j] = '';
+    }
   }
 
 hasConflict(row: number, col: number, val: number): boolean {
