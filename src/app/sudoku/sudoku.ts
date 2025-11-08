@@ -134,25 +134,6 @@ fillGrid(grid: number[][]): boolean {
 
  onCellInput(i: number, j: number, input: KeyboardEvent) {
   if(this.notesMode) return;
-  // if (this.notesMode) {
-  //   var inputs = [];
-  //   inputs.push(input);
-  //   const digitsNum = Array.from(String(inputs), Number);
-  //   digitsNum.sort();
-  //   var notes = this.notesGrid[i][j];
-  //   notes.sort();
-
-  //   var numToAdd = digitsNum.find(x => !notes.includes(x));
-  //   const d = Number(numToAdd);
-  //   console.log(d,'d');
-  //   //if notes already includes the last digit
-  //   if (numToAdd) {
-  //     //if not already included, add number to notes
-  //     this.notesGrid[i][j] = [...notes, d].sort();
-      
-  //     return;
-  //   } 
-  // }
 
   const num = Number(input);
   this.valuesGrid[i][j] = (num >= 1 && num <= 9) ? num : '';
