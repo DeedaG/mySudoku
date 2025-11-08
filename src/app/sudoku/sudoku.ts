@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, numberAttribute } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
 import { Inject, PLATFORM_ID } from '@angular/core'
 import confetti from 'canvas-confetti';
+import { Event } from '@angular/router';
 
 @Component({
   selector: 'app-sudoku',
@@ -131,23 +132,52 @@ fillGrid(grid: number[][]): boolean {
     this.notesMode = !this.notesMode;
   }
 
- onCellInput(i: number, j: number, v: any) {
-  if (this.notesMode) {
-    const d = Number(v);
-    if (d >= 1 && d <= 9) {
-      const notes = this.notesGrid[i][j];
-      const idx = notes.indexOf(d);
-      if (idx === -1) notes.push(d);
-      else notes.splice(idx, 1);
-    }
-    return;
-  }
+ onCellInput(i: number, j: number, input: KeyboardEvent) {
+  if(this.notesMode) return;
+  // if (this.notesMode) {
+  //   var inputs = [];
+  //   inputs.push(input);
+  //   const digitsNum = Array.from(String(inputs), Number);
+  //   digitsNum.sort();
+  //   var notes = this.notesGrid[i][j];
+  //   notes.sort();
 
-  const num = Number(v);
+  //   var numToAdd = digitsNum.find(x => !notes.includes(x));
+  //   const d = Number(numToAdd);
+  //   console.log(d,'d');
+  //   //if notes already includes the last digit
+  //   if (numToAdd) {
+  //     //if not already included, add number to notes
+  //     this.notesGrid[i][j] = [...notes, d].sort();
+      
+  //     return;
+  //   } 
+  // }
+
+  const num = Number(input);
   this.valuesGrid[i][j] = (num >= 1 && num <= 9) ? num : '';
   this.validateCell(i, j);
 }
 
+onNoteKey(e: KeyboardEvent, i:number, j:number) {
+  if (!this.notesMode) return;
+  const d = Number(e.key);
+  if (d>=1 && d<=9) {
+    e.preventDefault();       // DO NOT let it type into box
+    this.toggleNote(i,j,d);
+  }
+}
+
+toggleNote(i: number, j: number, d: number) {
+  const notes = this.notesGrid[i][j]; // example: [1,3,7]
+  const idx = notes.indexOf(d);
+  if (idx === -1) {
+    notes.push(d);      // not there → ADD
+  } else {
+    notes.splice(idx,1) // is there → REMOVE
+  }
+  notes.sort((a,b)=>a-b); // keep visually ordered
+}
 
 
   // Check conflicts for a specific grid (used in generation)
@@ -180,14 +210,8 @@ fillGrid(grid: number[][]): boolean {
   onWheel(event: WheelEvent) { event.preventDefault(); }
 
   onCellTap(i: number, j: number) {
-  if (this.notesMode) {
-    // delete main value, keep notes as-is
-   // this.grid[i][j].value = '';
-  } else {
-    // delete value normally
-   // this.grid[i][j].value = '';
+    this.valuesGrid[i][j] = '';
   }
-}
 
 hasConflict(row: number, col: number, val: number): boolean {
   for (let i = 0; i < 9; i++) {

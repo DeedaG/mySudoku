@@ -83,12 +83,12 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
                       <input
                         class="cell-input"
                         type="text"
-                        maxlength="1"
+                        maxlength="9"
                         (ngModelChange)="onCellInput(i, j, $event)"
                         [ngModel]="''"  
                         [readOnly]="fixed[i][j]"
                         (click)="onCellTap(i, j)"
-                        (keydown)="onKeyDown($event)"
+                        (keydown)="onNoteKey($event,i,j)"
                       />
                     </div>
                   }
