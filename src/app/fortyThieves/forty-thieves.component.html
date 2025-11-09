@@ -1,0 +1,69 @@
+<h2>Forty Thieves</h2>
+
+<div class="forty-thieves-game" (pointermove)="onPointerMove($event)">
+  
+  <!-- Foundations row -->
+  <div class="foundations-row">
+    @for(p of piles.foundation; track trackByIndex($index, p); let i = $index){
+      <div class="pile foundation-pile"
+           [class.hovered]="hoveredPile === p"
+           (pointerover)="hoveredPile = p"
+           (pointerout)="hoveredPile = null"
+           (pointerup)="dropOnPile(p)">
+        @if(p.top()){
+          <div class="card">{{ p.top()?.display }}</div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Tableau row -->
+  <div class="tableau-row">
+    @for(p of piles.tableau; track trackByIndex($index, p); let i = $index){
+      <div class="pile"
+           [class.hovered]="hoveredPile === p"
+           (pointerover)="hoveredPile = p"
+           (pointerout)="hoveredPile = null"
+           (pointerup)="dropOnPile(p)">
+        @for(card of p.cards; track trackByIndex($index, card); let j = $index){
+          <div class="card"
+               [class.facedown]="!card.faceUp"
+               [class.red]="card.suit === '♥' || card.suit === '♦'"
+               [class.black]="card.suit === '♠' || card.suit === '♣'"
+               (pointerdown)="startDrag(card, p, $event)">
+            {{ card.faceUp ? card.display : '' }}
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <!-- Stock and Waste -->
+  <div class="stock-waste-row">
+    <div class="pile stock" (click)="drawFromStock()">
+      {{ piles.stock.cards.length }} left
+    </div>
+    <div class="pile waste"
+         [class.hovered]="hoveredPile === piles.waste"
+         (pointerover)="hoveredPile = piles.waste"
+         (pointerout)="hoveredPile = null"
+         (pointerup)="dropOnPile(piles.waste)">
+      @if(piles.waste.top()){
+        <div class="card">{{ piles.waste.top()?.display }}</div>
+      }
+    </div>
+  </div>
+
+  <!-- DRAGGED CARD (ghost) -->
+  @if(draggedCard){
+  <div class="dragged-card"
+       [style.top.px]="dragY"
+       [style.left.px]="dragX"
+       [class.red]="draggedCard.suit === '♥' || draggedCard.suit === '♦'"
+       [class.black]="draggedCard.suit === '♠' || draggedCard.suit === '♣'">
+    {{ draggedCard.display }}
+  </div>
+}
+
+
+</div>

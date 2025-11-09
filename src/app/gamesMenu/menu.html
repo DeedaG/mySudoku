@@ -1,0 +1,37 @@
+    <script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
+     crossorigin="anonymous"></script>
+    
+    <div class="games-menu">
+        <h1 class="title">Christi Games</h1>
+        <h3 style="color:white;">Keep your mind sharp and your faith strong.</h3>
+            <div class="todaysVerse">
+            {{todaysVerse}}
+            </div>
+        <div class="games-grid">
+
+            <div class="game-card" (click)="goToGame('sudoku')">
+            <div class="game-icon">🧩</div>
+            <div class="game-name">Sudoku</div>
+            </div>
+
+            <div class="game-card" (click)="goToGame('fortythieves')">
+            <div class="game-icon">🃏</div>
+            <div class="game-name">Forty Thieves</div>
+            </div>
+
+            <div class="game-card" (click)="goToGame('comingsoon')">
+            <div class="game-icon">🎮</div>
+            <div class="game-name">More Coming Soon</div>
+            </div>
+
+        </div>
+        <div class="christi">
+            Christi Games
+        </div>
+        <div class="donate">
+            <app-donate></app-donate>
+        </div>
+       
+        <app-ads></app-ads>
+    </div>

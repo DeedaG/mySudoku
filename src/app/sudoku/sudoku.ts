@@ -1,11 +1,10 @@
-import { Component, numberAttribute } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
 import { Inject, PLATFORM_ID } from '@angular/core'
 import confetti from 'canvas-confetti';
-import { Event } from '@angular/router';
 
 @Component({
   selector: 'app-sudoku',

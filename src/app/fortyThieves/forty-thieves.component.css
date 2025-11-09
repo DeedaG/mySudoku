@@ -1,0 +1,135 @@
+.foundations, .tableau {
+  margin-bottom: 10px;
+}
+
+
+.pile > div {
+  margin: 2px 0; /* spacing between cards */
+}
+
+
+
+.pile > div {
+  margin-top: 20px;
+}
+
+.waste .card { /* optionally use .pile > div */
+  font-weight: bold;
+}
+
+
+.stock-waste-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px; /* space between piles */
+  margin-bottom: 16px;
+}
+
+
+.card:first-child {
+  margin-top: 0;
+}
+
+.tableau-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px; /* smaller gap between piles */
+  margin-bottom: 16px;
+}
+
+.foundations-row {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.foundation-pile {
+  width: 50px;
+  height: 100px;
+  opacity: 0.25; /* faint empty placeholder */
+}
+
+.card {
+  width: 48px;
+  height: 70px;
+  margin-top: -40px;
+  border: 1px solid #222;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: -40px;
+  z-index: auto;
+  cursor: grab;
+  background: #fff;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.card.facedown {
+  background: repeating-linear-gradient(
+    45deg,
+    #444 0 4px,
+    #777 4px 8px
+  );
+  color: transparent;
+  cursor: default;
+}
+
+/* suit colors */
+.card.red {
+  color: #d32f2f;
+}
+
+.card.black {
+  color: #222;
+}
+
+.pile {
+  position: relative;
+  width: 60px;
+  height: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  background-image: url('../../assets/green-2847123_1280.jpg');
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pile.hovered {
+  background: #e3f2fd;
+  border-color: #64b5f6;
+}
+
+.forty-thieves-game {
+  background: url('../../assets/jeans-1161035_1280.jpg');
+  min-height: 100vh;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dragged-card {
+  position: fixed;      /* floats above the table */
+  width: 48px;
+  height: 70px;
+  border: 1px solid #222;
+  border-radius: 6px;
+  background: #fff;      /* face-up card background */
+  z-index: 9999;         /* above everything */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  pointer-events: none;  /* so pointer events go through to underlying piles */
+}
+
+
+
+

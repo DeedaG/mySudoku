@@ -8,6 +8,12 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
+.wrapper {
+  background: url('../../assets/jeans-1161035_1280.jpg');
+   background-size: cover;
+  background-position: left top;
+}
+
 /* --- LAYOUT --- */
 .layout {
   display: flex;
@@ -73,6 +79,8 @@ html, body {
   width: 35%;
   margin-top: 10px;
 }
+
+
 
 .notes-and-timer {
   display: flex;
@@ -222,6 +230,10 @@ html, body {
   z-index: 5;
   caret-color: transparent;
 }
+
+
+
+
 
 
 /* --- BOARD CONTAINER --- */

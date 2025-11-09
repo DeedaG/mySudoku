@@ -28,5 +28,17 @@ export const dailyVersesESV: string[] = [
   "Romans 10:9 — “If you confess with your mouth that Jesus is Lord and believe in your heart…”",
   "Colossians 3:23 — “Whatever you do, work heartily, as for the Lord and not for men…”",
   "Psalm 34:8 — “Oh, taste and see that the Lord is good! Blessed is the man who takes refuge in him!”",
-  "Joshua 1:9 — “Be strong and courageous. Do not be frightened, and do not be dismayed…”"
+  "Joshua 1:9 — “Be strong and courageous. Do not be frightened, and do not be dismayed…”",
+    "Psalm 20:7 | Some trust in chariots, and some in horses: but we will remember the name of the LORD our God.",
+  "Psalm 16:8 | I have set the LORD always before me: because he is at my right hand, I shall not be moved.",
+  "Nahum 1:7 | The LORD is good, a strong hold in the day of trouble; and he knoweth them that trust in him.",
+  "Micah 7:7 | Therefore I will look unto the LORD; I will wait for the God of my salvation: my God will hear me.",
+  "Psalm 112:7 | He shall not be afraid of evil tidings: his heart is fixed, trusting in the LORD.",
+  "Psalm 4:8 | I will both lay me down in peace, and sleep: for thou, LORD, only makest me dwell in safety.",
+  "Psalm 73:26 | My flesh and my heart faileth: but God is the strength of my heart, and my portion for ever.",
+  "Zephaniah 3:17 | The LORD thy God in the midst of thee is mighty; he will save...",
+  "Ephesians 3:20 | Now unto him that is able to do exceeding abundantly above all that we ask or think...",
+  "Psalm 37:5 | Commit thy way unto the LORD; trust also in him; and he shall bring it to pass.",
+  
+
 ];
