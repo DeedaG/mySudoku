@@ -136,7 +136,6 @@ export class FortyThievesComponent {
   tryMoveToFoundation(card: Card, targetPile: Pile): boolean {
     if (targetPile.name !== 'foundation' || targetPile.suit !== card.suit) return false;
     const top = targetPile.top();
-    console.log('foundation pile', targetPile);
 
     if (!top && card.rank === 1 || (top && card.rank === top.rank + 1)) {
       this.draggedFrom!.remove(card);
@@ -149,10 +148,8 @@ export class FortyThievesComponent {
   }
 
   tryMoveToTableau(card: Card, fromPile: Pile, toPile: Pile): boolean {
-    console.log('toPile tableau', toPile);
     if (toPile.name !== 'tableau') return false;
     const top = toPile.top();
-    console.log('tableau pile', toPile);
 
     // allow empty pile or same-suit descending
     if (!top || (card.suit === top.suit && card.rank === top.rank - 1)) {
@@ -182,7 +179,6 @@ export class FortyThievesComponent {
 
   drawFromStock() {
     const c = this.piles.stock.pop();
-    console.log('stock card', c);
     if (!c) return;
     c.faceUp = true;
     this.piles.waste.push(c);
