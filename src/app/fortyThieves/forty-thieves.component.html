@@ -1,5 +1,11 @@
-<h2>Forty Thieves</h2>
-
+ <div style="align-items: center;">
+ <h2 style="color: black;">Forty Thieves</h2>
+ <div class="controls-row" style="float: right;">
+    <button  (click)="startGame()"> New Game</button>
+    
+    <button  (click)="goBack()">Back to Main</button>
+  </div>
+  </div>
 <div class="forty-thieves-game" (pointermove)="onPointerMove($event)">
 
   @if (solved) {

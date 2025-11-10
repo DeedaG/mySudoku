@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../models/card';
 import { Pile } from '../models/pile';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-forty-thieves',
@@ -28,7 +29,7 @@ export class FortyThievesComponent {
   gameOver = false;
   viewReady = false;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngAfterViewInit() {
     setTimeout(() => this.startGame());
@@ -207,5 +208,9 @@ export class FortyThievesComponent {
     this.gameOver = gameOver;
     return gameOver;
   }
+
+   goBack(){
+    this.router.navigateByUrl('/');
+   }
 
 }

@@ -171,6 +171,35 @@
     border-radius: 15px;
 }
 
+.back-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10000;
+}
+
+.new-game-title {
+float: left;
+}
+
+  .controls-row {
+    display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: nowrap; /* prevent wrapping on desktop */
+  }
+
+.back {
+float: right;
+}
+
+.title {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+
 @media (max-width: 485px) {
   .end-message {
     margin-top: 200px;
