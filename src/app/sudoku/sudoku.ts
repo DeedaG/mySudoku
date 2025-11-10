@@ -1,11 +1,11 @@
-import { Component, numberAttribute } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
 import { DonateComponent } from "../components/donate/donate.component";
 import { Inject, PLATFORM_ID } from '@angular/core'
 import confetti from 'canvas-confetti';
-import { Event } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sudoku',
@@ -28,7 +28,8 @@ export class SudokuComponent {
   elapsedMs = 0;
   intervalId: any;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(@Inject(PLATFORM_ID) private platformId: Object, 
+  private router: Router) {}
 
   ngOnInit() {
     this.loadDifficulty();
@@ -263,6 +264,10 @@ hasConflict(row: number, col: number, val: number): boolean {
   }
 
   trackByIndex(index: number, _item: any): number { return index; }
+
+   goBack(){
+    this.router.navigateByUrl('/');
+   }
 
   validateCell(row: number, col: number) {
   const val = this.valuesGrid[row][col];

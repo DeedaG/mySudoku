@@ -8,6 +8,12 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
+.wrapper {
+  background: url('../../assets/jeans-1161035_1280.jpg');
+   background-size: cover;
+  background-position: left top;
+}
+
 /* --- LAYOUT --- */
 .layout {
   display: flex;
@@ -74,6 +80,8 @@ html, body {
   margin-top: 10px;
 }
 
+
+
 .notes-and-timer {
   display: flex;
   flex-direction: row;
@@ -121,6 +129,20 @@ html, body {
   gap: 0.5rem;
   align-items: center;
   flex-wrap: wrap; /* prevent wrapping on desktop */
+}
+
+.navigate{
+   display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap; /* prevent wrapping on desktop */
+}
+.back-button {
+  position: fixed;
+  left: 12rem;
+  border-radius: .5rem;
+  z-index: 10000;
 }
 
 /* --- COPYRIGHT / FOOTER --- */
@@ -222,6 +244,10 @@ html, body {
   z-index: 5;
   caret-color: transparent;
 }
+
+
+
+
 
 
 /* --- BOARD CONTAINER --- */
@@ -367,6 +393,13 @@ html, body {
   gap: 0.5rem;
   align-items: center;
   flex-wrap: nowrap; /* prevent wrapping on desktop */
+  }
+  .navigate {
+     display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: nowrap; /* prevent wrapping on desktop */
   }
 }
 

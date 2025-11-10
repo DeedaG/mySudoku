@@ -1,0 +1,231 @@
+.foundations, .tableau {
+  margin-bottom: 10px;
+}
+
+
+.pile > div {
+  margin: 2px 0; /* spacing between cards */
+}
+
+
+
+.pile > div {
+  margin-top: 20px;
+}
+
+.waste .card { /* optionally use .pile > div */
+  font-weight: bold;
+}
+
+
+.stock-waste-row {
+  display: flex;
+  flex-direction: row;
+  gap: 8px; /* space between piles */
+  margin-bottom: 16px;
+}
+
+
+.card:first-child {
+  margin-top: 0;
+}
+
+.tableau-row {
+  display: flex;
+  flex-direction: row;
+  gap: 4px; /* smaller gap between piles */
+  margin-bottom: 16px;
+}
+
+.foundations-row {
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.foundation-pile {
+  width: 50px;
+  height: 100px;
+}
+
+.card {
+  width: 48px;
+  height: 70px;
+  margin-top: -40px;
+  border: 1px solid #222;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: -40px;
+  z-index: auto;
+  cursor: grab;
+  background: #fff;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.card.facedown {
+  background: repeating-linear-gradient(
+    45deg,
+    #444 0 4px,
+    #777 4px 8px
+  );
+  color: transparent;
+  cursor: default;
+}
+
+/* suit colors */
+.card.red {
+  color: #d32f2f;
+}
+
+.card.black {
+  color: #222;
+}
+
+.pile {
+  position: relative;
+  width: 60px;
+  height: 150px;
+  border: 1px solid black;
+  border-radius: 6px;
+  background-image: url('../../assets/green-2847123_1280.jpg');
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.pile.hovered {
+  background: #e3f2fd;
+  border-color: #64b5f6;
+}
+
+.forty-thieves-game {
+  background: url('../../assets/jeans-1161035_1280.jpg');
+  min-height: 100vh;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dragged-card {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 65px;
+  height: 90px;
+  border-radius: 6px;
+  background: white;
+  border: 1px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.end-message {
+  position: fixed;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2rem;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+
+  background-position: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+
+  border-radius: 20px;
+  overflow: hidden;
+  background: url('../../assets/board-19208_1280.jpg') center / 0% no-repeat,
+   url('../../assets/board-19208_1280.jpg') center / cover no-repeat;
+  
+  z-index: 9998;
+  pointer-events: none;
+}
+
+.end-message > * {
+  pointer-events: auto;
+}
+
+.new-game {
+  background-color: #4CAF50;
+  color: white;
+  margin-top: 10px;
+  width: 75%;
+  font-size: 30px;
+    border-radius: 15px;
+}
+
+.back-button {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 10000;
+}
+
+.new-game-title {
+float: left;
+}
+
+  .controls-row {
+    display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: nowrap; /* prevent wrapping on desktop */
+  }
+
+.back {
+float: right;
+}
+
+.title {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+
+@media (max-width: 485px) {
+  .end-message {
+    margin-top: 200px;
+    height: 40%;
+    background-size: 100%;
+    background: url('../../assets/board-19208_1280.jpg') center / 0% no-repeat,
+   url('../../assets/board-19208_1280.jpg') center / cover no-repeat;
+  
+  }
+
+  .forty-thieves-game {
+    position: fixed;
+    top: 10%;
+    left: 0%;
+    width: 100%;
+    height: 80%;
+  }
+  .new-game {
+     margin-top: 2px;
+    width: 70%;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 15px;
+  }
+}
+
+
+
+

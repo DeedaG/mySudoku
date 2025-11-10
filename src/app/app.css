@@ -171,7 +171,7 @@
     }
   }
 
-  main {
+  app-sudoku {
   min-height: 100vh; /* full page height */
   background-image: url('../assets/jeans-1161035_1280.jpg');
   background-size: cover;       /* cover the entire area */
