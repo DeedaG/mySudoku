@@ -25,8 +25,27 @@ export class FortyThievesComponent {
   solved: boolean = false;
   startTime!: number;
   elapsedMs = 0;
+  gameOver = false;
+  viewReady = false;
 
-  constructor() {
+  constructor() { }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.startGame());
+  }
+
+  startGame() {
+    this.viewReady = true;
+      // reset piles
+    this.piles = {
+      foundation: [],
+      tableau: [],
+      stock: new Pile('stock', 0),
+      waste: new Pile('waste', 0)
+    };
+
+    this.draggedCard = null;
+    this.draggedFrom = null;
     this.initPiles();
     const deck = this.createDeck();
 
@@ -55,7 +74,6 @@ export class FortyThievesComponent {
       f.suit = suits[i % 4];
       this.piles.foundation.push(f);
     }
-    console.log('foundation piles', this.piles.foundation);
 
     for (let i = 0; i < 10; i++) this.piles.tableau.push(new Pile('tableau', i));
   }
@@ -72,8 +90,6 @@ export class FortyThievesComponent {
       const j = Math.floor(Math.random() * (i + 1));
       [deck[i], deck[j]] = [deck[j], deck[i]];
     }
-
-      this.solved = true;
     return deck;
   }
 
@@ -91,12 +107,9 @@ export class FortyThievesComponent {
       const elem = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
       const pileId = elem.closest('.pile')?.getAttribute('data-pile-id');
       const pileName = elem.closest('.pile')?.getAttribute('data-pile-name');
-      console.log('elem', elem);
-      console.log('pileName', pileName);
 
       if (!pileId) { this.resetDrag(); return; }
-      const toPile = this.getPile(pileId, pileName); // you write this method
-      console.log('toPile', toPile);
+      const toPile = this.getPile(pileId, pileName); 
       if(!toPile) {this.resetDrag; return;}
 
       const card = this.draggedCard;
@@ -189,7 +202,14 @@ export class FortyThievesComponent {
 
   noCardsLeft(){
     var cardsLeft = this.piles.stock.cards.length;
-    return cardsLeft == 0;
+   // return cardsLeft == 0;
+   return true;
+  }
+
+  checkGameOver(){
+    var gameOver = this.piles.stock.cards.length == 0 || this.solved;
+    this.gameOver = gameOver;
+    return gameOver;
   }
 
 }

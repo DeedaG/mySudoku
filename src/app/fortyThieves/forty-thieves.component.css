@@ -131,24 +131,70 @@
 
 .end-message {
   position: fixed;
-  inset: 0;
+  top: 10%;
+  left: 10%;
+  width: 80%;
+  height: 80%;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-size: 2rem;
   font-weight: bold;
-  border-color: white;
   color: white;
   text-align: center;
-  background-image: url('../../assets/floor-1866663_1280.jpg');
-  background-size: 450%;
- 
+
+  background-position: center;
+  background-size: 40%;
+  background-repeat: no-repeat;
+
+  border-radius: 20px;
+  overflow: hidden;
+  background: url('../../assets/board-19208_1280.jpg') center / 0% no-repeat,
+   url('../../assets/board-19208_1280.jpg') center / cover no-repeat;
+  
   z-index: 9998;
   pointer-events: none;
 }
 
 .end-message > * {
   pointer-events: auto;
+}
+
+.new-game {
+  background-color: #4CAF50;
+  color: white;
+  margin-top: 10px;
+  width: 75%;
+  font-size: 30px;
+    border-radius: 15px;
+}
+
+@media (max-width: 485px) {
+  .end-message {
+    margin-top: 200px;
+    height: 40%;
+    background-size: 100%;
+    background: url('../../assets/board-19208_1280.jpg') center / 0% no-repeat,
+   url('../../assets/board-19208_1280.jpg') center / cover no-repeat;
+  
+  }
+
+  .forty-thieves-game {
+    position: fixed;
+    top: 10%;
+    left: 0%;
+    width: 100%;
+    height: 80%;
+  }
+  .new-game {
+     margin-top: 2px;
+    width: 70%;
+    height: 50px;
+    font-size: 30px;
+    border-radius: 15px;
+  }
 }
 
 
