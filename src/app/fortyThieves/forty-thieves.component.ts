@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Card } from '../models/card';
 import { Pile } from '../models/pile';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-forty-thieves',
@@ -11,191 +11,185 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./forty-thieves.component.css']
 })
 export class FortyThievesComponent {
-
   piles = {
     foundation: [] as Pile[],
     tableau: [] as Pile[],
-    stock: new Pile('stock'),
-    waste: new Pile('waste')
+    stock: new Pile('stock', 0),
+    waste: new Pile('waste', 0)
   };
 
-  selectedCard: { card: Card, from: Pile } | null = null;
   draggedCard: Card | null = null;
   draggedFrom: Pile | null = null;
-  hoveredPile: Pile | null = null;
-  dragX: number = 0;  // current mouse X
-  dragY: number = 0;  // current mouse Y
+  dragX: number = 0;
+  dragY: number = 0;
+  solved: boolean = false;
+  startTime!: number;
+  elapsedMs = 0;
 
   constructor() {
-  this.initPiles();
-  const deck = this.createDeck();
+    this.initPiles();
+    const deck = this.createDeck();
 
-  // deal 4 cards to each tableau pile, only last one faceUp
-  for (let i = 0; i < 10; i++) {
-    const pile = this.piles.tableau[i];
-    // first 3 cards faceDown
-    for (let k = 0; k < 3; k++) {
-      const c = deck.pop()!;
-      c.faceUp = true;
-      pile.push(c);
-    }
-    // last card faceUp
-    const last = deck.pop()!;
-    last.faceUp = true;
-    pile.push(last);
-  }
-    // remaining go to stock
-    while (deck.length > 0) {
-      this.piles.stock.push(deck.pop()!);
-    }
-  }
-
-
-  createDeck(): Card[] {
-  const suits: Array<'♠' | '♥' | '♦' | '♣'> = ['♠','♥','♦','♣'];
-  const deck: Card[] = [];
-
-  for (let d = 0; d < 2; d++) { // 2 decks
-    for (let s of suits) {
-      for (let r = 1; r <= 13; r++) {
-        deck.push(new Card(s, r, true)); // 40 Thieves: all cards face up
+    // deal 4 cards to each tableau pile, last one faceUp
+    for (let i = 0; i < 10; i++) {
+      const pile = this.piles.tableau[i];
+      for (let k = 0; k < 3; k++) {
+        const c = deck.pop()!;
+        c.faceUp = true;
+        pile.push(c);
       }
+      const last = deck.pop()!;
+      last.faceUp = true;
+      pile.push(last);
     }
+
+    // remaining to stock
+    while (deck.length > 0) this.piles.stock.push(deck.pop()!);
   }
-
-  // shuffle
-  for (let i = deck.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [deck[i], deck[j]] = [deck[j], deck[i]];
-  }
-
-  return deck;
-}
-
 
   initPiles() {
-  // create foundation piles
-  const suits: Array<'♠' | '♥' | '♦' | '♣'> = ['♠','♥','♦','♣'];
+    const suits: Array<'♠' | '♥' | '♦' | '♣'> = ['♠','♥','♦','♣'];
 
-  for (let i = 0; i < 8; i++) {
-    const f = new Pile('foundation');
-    f.suit = suits[i % 4]; // two piles per suit
-    this.piles.foundation.push(f);
+    for (let i = 0; i < 8; i++) {
+      const f = new Pile('foundation', i);
+      f.suit = suits[i % 4];
+      this.piles.foundation.push(f);
+    }
+    console.log('foundation piles', this.piles.foundation);
+
+    for (let i = 0; i < 10; i++) this.piles.tableau.push(new Pile('tableau', i));
   }
 
-  // create tableau piles
-  for (let i = 0; i < 10; i++) {
-    this.piles.tableau.push(new Pile('tableau'));
+  createDeck(): Card[] {
+    const suits: Array<'♠' | '♥' | '♦' | '♣'> = ['♠','♥','♦','♣'];
+    const deck: Card[] = [];
+    for (let d = 0; d < 2; d++)
+      for (let s of suits)
+        for (let r = 1; r <= 13; r++)
+          deck.push(new Card(s, r, true));
+
+    for (let i = deck.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [deck[i], deck[j]] = [deck[j], deck[i]];
+    }
+
+      this.solved = true;
+    return deck;
   }
-}
 
+  startDrag(fromPile: Pile, event: PointerEvent, card?: Card, ) {
+    if(!card) return;
+    if (!card.faceUp) return;
+    this.draggedCard = card;
+    this.draggedFrom = fromPile;
+    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+  }
 
-  trackByIndex(index: number, _item: any): number { return index; }
+  dropOnPile(event?: PointerEvent) {
+    if (!this.draggedCard || !this.draggedFrom) return;
+    if (event){
+      const elem = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+      const pileId = elem.closest('.pile')?.getAttribute('data-pile-id');
+      const pileName = elem.closest('.pile')?.getAttribute('data-pile-name');
+      console.log('elem', elem);
+      console.log('pileName', pileName);
 
-  drawFromStock() {
-  const c = this.piles.stock.cards.pop();
-  if (!c) return;
-  this.piles.waste.cards.push(c);
-}
+      if (!pileId) { this.resetDrag(); return; }
+      const toPile = this.getPile(pileId, pileName); // you write this method
+      console.log('toPile', toPile);
+      if(!toPile) {this.resetDrag; return;}
 
-  tryMoveToFoundation(card: Card, fromPile: Pile): boolean {
-  for (const f of this.piles.foundation) {
-    if (f.suit !== card.suit) continue;  // only match correct suit
-
-    const top = f.top();
-    if (!top) {
-      if (card.rank === 1) { // Ace
-        f.push(card);
-        return true;
-      }
-    } else if (card.rank === top.rank + 1) {
-      f.push(card);
-      return true;
+      const card = this.draggedCard;
+      if (this.tryMoveToFoundation(card, toPile) || this.tryMoveToTableau(card, this.draggedFrom, toPile)) {
+        this.resetDrag();
+      } 
+    } else {
+      this.resetDrag();
     }
   }
-  return false;
-}
 
+    getPile(pileId: any, pileName: any){
+      var pile;
+      if(pileName && pileId && pileName == 'foundation'){
+        pile = this.piles.foundation.find(x => x.id == pileId);
+      }
+      if(pileName && pileId && pileName == 'tableau'){
+        pile = this.piles.tableau.find(x => x.id == pileId);
+      }
+      return pile;
+    }
+ 
 
+  tryMoveToFoundation(card: Card, targetPile: Pile): boolean {
+    if (targetPile.name !== 'foundation' || targetPile.suit !== card.suit) return false;
+    const top = targetPile.top();
+    console.log('foundation pile', targetPile);
 
-  tryMoveToTableau(card: Card, fromPile: Pile, toPile: Pile) {
-  const top = toPile.top();
-
-  if (!top) {
-    // tableau piles CAN NEVER start empty in Forty Thieves
+    if (!top && card.rank === 1 || (top && card.rank === top.rank + 1)) {
+      this.draggedFrom!.remove(card);
+      targetPile.push(card);
+      this.draggedFrom!.cards = [...this.draggedFrom!.cards];
+      targetPile.cards = [...targetPile.cards];
+      return true;
+   }
     return false;
   }
 
-  if (card.suit === top.suit && card.rank === top.rank - 1) {
-    fromPile.remove(card);
-    toPile.push(card);
-    return true;
+  tryMoveToTableau(card: Card, fromPile: Pile, toPile: Pile): boolean {
+    console.log('toPile tableau', toPile);
+    if (toPile.name !== 'tableau') return false;
+    const top = toPile.top();
+    console.log('tableau pile', toPile);
+
+    // allow empty pile or same-suit descending
+    if (!top || (card.suit === top.suit && card.rank === top.rank - 1)) {
+      fromPile.remove(card);
+      toPile.push(card);
+      fromPile.cards = [...fromPile.cards];
+      toPile.cards = [...toPile.cards];
+      return true;
+    }
+    return false;
   }
 
-  return false;
-}
-
-
-selectOrFoundation(card: Card, pile: Pile) {
-  // first try foundation
-  if (this.tryMoveToFoundation(card, pile)) return;
-
-  // otherwise select for tableau move
-  this.selectedCard = { card, from: pile };
-}
-
-tryDropOnPile(toPile: Pile) {
-  if (!this.selectedCard) return;
-  const { card, from } = this.selectedCard;
-
-  if (this.tryMoveToTableau(card, from, toPile)) {
-    this.selectedCard = null;
-  }
-}
-
-startDrag(card: Card, fromPile: Pile, event: PointerEvent) {
-  if (!card.faceUp) return;
-
-  this.draggedCard = card;
-  this.draggedFrom = fromPile;
-
-  const elem = (event.target as HTMLElement);
-  elem.setPointerCapture(event.pointerId);
-}
-
-
-dropOnPile(toPile: Pile) {
-  if (!this.draggedCard || !this.draggedFrom) return;
-
-  const card = this.draggedCard;
-
-  // try foundation first
-  if (this.tryMoveToFoundation(card, this.draggedFrom)) {
-    this.draggedFrom.remove(card); // remove now
-    this.resetDrag();
-    return;
+  resetDrag() {
+    this.draggedCard = null;
+    this.draggedFrom = null;
   }
 
-  // then tableau
-  if (this.tryMoveToTableau(card, this.draggedFrom, toPile)) {
-    this.draggedFrom.remove(card); // remove now
-    this.resetDrag();
-    return;
+  onPointerMove(event: PointerEvent) {
+    if (!this.draggedCard) return;
+    this.dragX = event.clientX - 24;
+    this.dragY = event.clientY - 35;
   }
 
-  this.resetDrag(); // invalid move, card stays in place
-}
+  trackByIndex(index: number, _item: any): number {
+    return index;
+  }
 
+  drawFromStock() {
+    const c = this.piles.stock.pop();
+    console.log('stock card', c);
+    if (!c) return;
+    c.faceUp = true;
+    this.piles.waste.push(c);
 
-resetDrag() {
-  this.draggedCard = null;
-  this.draggedFrom = null;
-}
+    // Force Angular to detect array changes
+    this.piles.stock.cards = [...this.piles.stock.cards];
+    this.piles.waste.cards = [...this.piles.waste.cards];
+  }
 
-onPointerMove(event: PointerEvent) {
-  if (!this.draggedCard) return;
-  this.dragX = event.clientX - 24; // adjust so card center follows pointer
-  this.dragY = event.clientY - 35;
-}
+  // optional = convert ms to mm:ss
+  get formattedTime(): string {
+    const sec = Math.floor(this.elapsedMs / 1000);
+    const mm = Math.floor(sec / 60).toString().padStart(2, '0');
+    const ss = (sec % 60).toString().padStart(2, '0');
+    return `${mm}:${ss}`;
+  }
+
+  noCardsLeft(){
+    var cardsLeft = this.piles.stock.cards.length;
+    return cardsLeft == 0;
+  }
 
 }

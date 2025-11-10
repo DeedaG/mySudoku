@@ -1,12 +1,14 @@
 import { Card } from './card';
 
 export class Pile {
+  id: number;
   name: string;
   cards: Card[] = [];
   suit?: '♠' | '♥' | '♦' | '♣'; // optional, only for foundations
 
-  constructor(name: string) {
+  constructor(name: string, id: number) {
     this.name = name;
+    this.id = id;
   }
 
   push(card: Card) {

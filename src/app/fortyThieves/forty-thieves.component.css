@@ -46,7 +46,6 @@
 .foundation-pile {
   width: 50px;
   height: 100px;
-  opacity: 0.25; /* faint empty placeholder */
 }
 
 .card {
@@ -115,19 +114,41 @@
 }
 
 .dragged-card {
-  position: fixed;      /* floats above the table */
-  width: 48px;
-  height: 70px;
-  border: 1px solid #222;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 65px;
+  height: 90px;
   border-radius: 6px;
-  background: #fff;      /* face-up card background */
-  z-index: 9999;         /* above everything */
+  background: white;
+  border: 1px solid #000;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   font-weight: bold;
-  font-size: 16px;
-  pointer-events: none;  /* so pointer events go through to underlying piles */
+  font-size: 20px;
+}
+
+.end-message {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border-color: white;
+  color: white;
+  text-align: center;
+  background-image: url('../../assets/floor-1866663_1280.jpg');
+  background-size: 450%;
+ 
+  z-index: 9998;
+  pointer-events: none;
+}
+
+.end-message > * {
+  pointer-events: auto;
 }
 
 
