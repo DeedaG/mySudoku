@@ -9,7 +9,10 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
   <!-- LEFT / TOP column -->
   <div class="sidebar">
     <strong class="title">🧩 Sudoku</strong>
-    <app-donate></app-donate>
+    <div class="navigate">
+      <app-donate></app-donate>
+      <button class="back-button" style="padding: 3px; margin: 3px; margin-bottom: 0px;" (click)="goBack()">Back to Main</button>
+    </div>
     <div class="controls-row">
       <button class="new-game" (click)="newPuzzle()">🧩 New Game</button>
 

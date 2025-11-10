@@ -131,6 +131,20 @@ html, body {
   flex-wrap: wrap; /* prevent wrapping on desktop */
 }
 
+.navigate{
+   display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  align-items: center;
+  flex-wrap: wrap; /* prevent wrapping on desktop */
+}
+.back-button {
+  position: fixed;
+  left: 12rem;
+  border-radius: .5rem;
+  z-index: 10000;
+}
+
 /* --- COPYRIGHT / FOOTER --- */
 .christi {
   color: black;
@@ -379,6 +393,13 @@ html, body {
   gap: 0.5rem;
   align-items: center;
   flex-wrap: nowrap; /* prevent wrapping on desktop */
+  }
+  .navigate {
+     display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: nowrap; /* prevent wrapping on desktop */
   }
 }
 
