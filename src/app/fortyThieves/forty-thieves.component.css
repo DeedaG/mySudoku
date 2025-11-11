@@ -51,7 +51,7 @@
   justify-content: space-between; /* left/right spacing */
   align-items: flex-start;
   margin: 1rem;
-  width: 80%;
+  width: 100%;
 }
 
 
@@ -68,6 +68,10 @@
 
 
 .card:first-child {
+  margin-top: 0;
+}
+
+.card-tableau:first-child {
   margin-top: 0;
 }
 
@@ -125,6 +129,44 @@
 }
 
 .card.black {
+  color: #222;
+}
+
+
+.card-tableau {
+  width: 48px;
+  height: 70px;
+  margin-top: -40px;
+  border: 1px solid #222;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: -40px;
+  z-index: auto;
+  cursor: grab;
+  background: #fff;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.card-tableau.facedown {
+  background: repeating-linear-gradient(
+    45deg,
+    #444 0 4px,
+    #777 4px 8px
+  );
+  color: transparent;
+  cursor: default;
+}
+
+/* suit colors */
+.card-tableau.red {
+  color: #d32f2f;
+}
+
+.card-tableau.black {
   color: #222;
 }
 
@@ -257,10 +299,99 @@ float: right;
   
   }
 
+  .top-row {
+     display: inline;
+    justify-content: space-between; /* left/right spacing */
+    align-items: normal;
+    margin: 2rem;
+    margin-left: 4%;
+    width: 90%;
+  }
+
+  .stock-waste-row {
+    display: flex;
+    gap: 0.5rem; /* space between stock and waste */
+    margin-bottom: 2rem;
+  }
+
+  .tableau-row {
+    display: inline-flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    width: 100%;
+    height: 200px;
+  }
+
+.card {
+  width: 20px;
+  height: 70px;
+  margin-top: -40px;
+  border: 1px solid #222;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: -40px;
+  z-index: auto;
+  cursor: grab;
+  background: #fff;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+}
+
+.card-tableau {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  width: 28px;
+  height: 60px;
+  border-radius: 6px;
+  background: white;
+  border: 1px solid #222;
+  font-weight: bold;
+  box-shadow: 1px 1px 4px rgba(0,0,0,0.3);
+  cursor: grab;
+  padding: 3px 0;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.rank {
+  font-size: 14px;
+}
+
+.suit {
+  font-size: 12px;
+}
+
+.tableau-pile {
+  position: relative;
+  width: 45px;
+  height: 300px;
+  border: 1px solid black;
+  border-radius: 6px;
+  background-image: url('../../assets/green-2847123_1280.jpg');
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: background 0.2s, border-color 0.2s;
+}
+
   .forty-thieves-game {
     position: fixed;
     top: 10%;
-    left: 0%;
+    left: -4%;
     width: 100%;
     height: 80%;
   }
