@@ -1,59 +1,85 @@
-
- 
- <div class="controls-row" >
+<!-- Controls Row -->
+<div class="controls-row">
   <h2 style="color: black;">Forty Thieves</h2>
-    <button  (click)="startGame()">🃏 New Game</button>
-    
-    <button  (click)="goBack()">Back to Main</button>
-  </div>
+  <button (click)="startGame()">🃏 New Game</button>
+  <button (click)="goBack()">Back to Main</button>
+</div>
+
+<!-- Game Container -->
 <div class="forty-thieves-game" (pointermove)="onPointerMove($event)">
 
-  @if (solved) {
-      <div class="end-message">
-        <div >🎉 Congratulations! 
-          <br>
-          <span style="font-size: 20px;">You won in {{formattedTime}} minutes!</span>
-        </div>
-        <div>
-          
-        </div>
-        
+  <!-- End Messages -->
+  @if(solved) {
+    <div class="end-message">
+      <div>
+        🎉 Congratulations! 
+        <br>
+        <span style="font-size: 20px;">You won in {{formattedTime}} minutes!</span>
       </div>
-    }
+    </div>
+  }
 
-    @if (checkGameOver() && viewReady) {
-      <div class="end-message">
-        <div >No Cards Left
-          <br>
-          <h2>Game Over</h2>
-          <br>
-           <button class="new-game" (click)="startGame()"> New Game</button>
-        </div>
-        
+  @if(checkGameOver() && viewReady) {
+    <div class="end-message">
+      <div>
+        No Cards Left
+        <br>
+        <h2>Game Over</h2>
+        <br>
+        <button class="new-game" (click)="startGame()">New Game</button>
       </div>
-    }  
+    </div>
+  }
 
-  <!-- Foundations -->
-  <div class="foundations-row">
-    @for(p of piles.foundation; track trackByIndex($index, p); let i = $index){
-      <div class="pile foundation-pile"
-           [attr.data-pile-id]="p.id"
-           [attr.data-pile-name]="p.name"
+  <!-- Top Row: Stock/Waste left, Foundations right -->
+  <div class="top-row">
+    <!-- Left: Stock & Waste -->
+    <div class="stock-waste-row">
+      <div class="stock" (click)="drawFromStock()">
+        {{ piles.stock.cards.length }} left
+      </div>
+
+      <div class="waste"
+           [attr.data-pile-id]="piles.waste.id"
+           [attr.data-pile-name]="piles.waste.name"
            (pointerup)="dropOnPile($event)">
-           {{p.suit}}
-        @if(p.top()){
-          <div class="card">{{ p.top()?.display }}</div>
+        @if(piles.waste.top()){
+          <div class="card"
+               [class.facedown]="!piles.waste.top()?.faceUp"
+               [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
+               [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
+               (pointerdown)="startDrag(piles.waste, $event, piles.waste.top())">
+            {{ piles.waste.top()?.display }}
+          </div>
         }
       </div>
-    }
+    </div>
+
+    <!-- Right: Foundation Piles -->
+    <div class="foundations-row">
+      @for(p of piles.foundation; track trackByIndex($index, p); let i = $index){
+        <div class="foundation-pile"
+             [attr.data-pile-id]="p.id"
+             [attr.data-pile-name]="p.name"
+             (pointerup)="dropOnPile($event)">
+          {{p.suit}}
+          @if(p.top()){
+            <div class="card"
+              [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
+              [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
+            >{{ p.top()?.display }}</div>
+          }
+        </div>
+      }
+    </div>
   </div>
 
   <!-- Tableau -->
   <div class="tableau-row">
     @for(p of piles.tableau; track trackByIndex($index, p); let i = $index){
       <div class="pile tableau-pile"
-            [attr.data-pile-id]="p.id"
-            [attr.data-pile-name]="p.name"
+           [attr.data-pile-id]="p.id"
+           [attr.data-pile-name]="p.name"
            (pointerup)="dropOnPile($event)">
         @for(card of p.cards; track trackByIndex($index, card); let j = $index){
           <div class="card"
@@ -68,28 +94,7 @@
     }
   </div>
 
-  <!-- Stock and Waste -->
-  <div class="stock-waste-row">
-    <div class="pile stock" style="color: white;" (click)="drawFromStock()">
-      {{ piles.stock.cards.length }} left
-    </div>
-    <div class="pile waste"
-          
-          [attr.data-pile-id]="piles.waste.id"
-          [attr.data-pile-name]="piles.waste.name"
-          (pointerup)="dropOnPile($event)">
-      @if(piles.waste.top()){
-        <div class="card"
-        [class.facedown]="!piles.waste.top()?.faceUp"
-          [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
-          [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
-          (pointerdown)="startDrag( piles.waste, $event, piles.waste.top())"
-        >{{ piles.waste.top()?.display }}</div>
-      }
-    </div>
-  </div>
-
-  <!-- Dragged card -->
+  <!-- Dragged Card -->
   @if(draggedCard){
     <div class="dragged-card"
          [style.top.px]="dragY"
@@ -99,4 +104,5 @@
       {{ draggedCard.display }}
     </div>
   }
+
 </div>
