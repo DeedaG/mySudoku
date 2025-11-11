@@ -105,10 +105,14 @@ export class FortyThievesComponent {
   dropOnPile(event?: PointerEvent) {
     if (!this.draggedCard || !this.draggedFrom) return;
     if (event){
-      const elem = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-      const pileId = elem.closest('.pile')?.getAttribute('data-pile-id');
-      const pileName = elem.closest('.pile')?.getAttribute('data-pile-name');
-
+      let elem = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
+      let pileId = elem.closest('.pile')?.getAttribute('data-pile-id');
+      let pileName = elem.closest('.pile')?.getAttribute('data-pile-name');
+      if(!pileId){
+        pileId = elem.closest('.foundation-pile')?.getAttribute('data-pile-id');
+        pileName = elem.closest('.foundation-pile')?.getAttribute('data-pile-name');
+      }
+      
       if (!pileId) { this.resetDrag(); return; }
       const toPile = this.getPile(pileId, pileName); 
       if(!toPile) {this.resetDrag; return;}
@@ -135,6 +139,8 @@ export class FortyThievesComponent {
  
 
   tryMoveToFoundation(card: Card, targetPile: Pile): boolean {
+    console.log('card foundation', card);
+    console.log('targetPile foundation', targetPile);
     if (targetPile.name !== 'foundation' || targetPile.suit !== card.suit) return false;
     const top = targetPile.top();
 
