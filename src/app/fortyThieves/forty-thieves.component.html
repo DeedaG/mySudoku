@@ -65,8 +65,8 @@
           {{p.suit}}
           @if(p.top()){
             <div class="card"
-              [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
-              [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
+              [class.red]="p.suit === '♥' || p.suit === '♦'"
+              [class.black]="p.suit === '♠' || p.suit === '♣'"
             >{{ p.top()?.display }}</div>
           }
         </div>
@@ -82,12 +82,23 @@
            [attr.data-pile-name]="p.name"
            (pointerup)="dropOnPile($event)">
         @for(card of p.cards; track trackByIndex($index, card); let j = $index){
-          <div class="card"
+          <div class="card-tableau"
                [class.facedown]="!card.faceUp"
                [class.red]="card.suit === '♥' || card.suit === '♦'"
                [class.black]="card.suit === '♠' || card.suit === '♣'"
                (pointerdown)="startDrag(p, $event, card)">
-            {{ card.faceUp ? card.display : '' }}
+                @if (card.faceUp) {
+                  <div class="rank">
+                    {{
+                      card.rank === 1 ? 'A' :
+                      card.rank === 11 ? 'J' :
+                      card.rank === 12 ? 'Q' :
+                      card.rank === 13 ? 'K' :
+                      card.rank
+                    }}
+                  </div>
+                  <div class="suit">{{ card.suit }}</div>
+                } 
           </div>
         }
       </div>
