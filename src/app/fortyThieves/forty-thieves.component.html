@@ -3,10 +3,19 @@
   <h2 style="color: black;">Forty Thieves</h2>
   <button (click)="startGame()">🃏 New Game</button>
   <button (click)="goBack()">Back to Main</button>
-</div>
+  <strong class="timer">
+        Time: {{ formattedTime }}
+  </strong>
+ </div>
 
 <!-- Game Container -->
 <div class="forty-thieves-game" (pointermove)="onPointerMove($event)">
+  <div style="color: white; background-color: green; font-weight: 20px;" >
+    <strong>**Best played on full screens**</strong>
+    <strong >
+      Place aces on the corresponding suit of foundation pile.
+    </strong>
+  </div>
 
   <!-- End Messages -->
   @if(solved) {
