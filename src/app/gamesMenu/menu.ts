@@ -32,6 +32,9 @@ export class GamesMenuComponent implements OnInit {
     case 'fortythieves':
       this.router.navigate(['/forty-thieves']);
       break;
+    case 'connectdots':
+      this.router.navigate(['/connect-dots']);
+      break;  
     default:
       alert('Coming soon!');
       break;

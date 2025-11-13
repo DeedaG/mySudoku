@@ -1,0 +1,34 @@
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
+     crossorigin="anonymous"></script>
+
+<div class="dots-boxes">
+  <div class="title-row">
+    <h2>Dots & Boxes</h2>
+    <div class="controls">
+      <button (click)="newGame()">🔁 New Game</button>
+      <button (click)="goBack()">Back to Main</button>
+    </div>
+  </div>
+  <br>
+  <br>
+
+  <div class="scoreboard">
+    <span [class.active]="playerTurn === 1">🟥 Player 1: {{ scores[1] }}</span>
+    <span [class.active]="playerTurn === 2">🟦 Player 2: {{ scores[2] }}</span>
+  </div>
+
+  <canvas
+    #gameCanvas
+    width="400"
+    height="400"
+    (click)="onCanvasClick($event)">
+  </canvas>
+ 
+  @if(winner){
+  <div class="winner">
+    🎉 Player {{ winner }} wins!
+  </div>
+}
+</div>
+
