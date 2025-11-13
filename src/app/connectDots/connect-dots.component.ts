@@ -1,5 +1,6 @@
 import { Component, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
+import confetti from 'canvas-confetti';
 
 interface Line {
   from: number;
@@ -43,11 +44,11 @@ export class ConnectDotsComponent implements AfterViewInit {
   constructor(private router: Router) { }
 
   ngAfterViewInit() {
-    this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.newGame();
   }
 
   newGame() {
+    this.ctx = this.canvasRef.nativeElement.getContext('2d')!;
     this.generateDots();
     this.lines = [];
     this.boxes = this.generateBoxes();
@@ -119,6 +120,16 @@ export class ConnectDotsComponent implements AfterViewInit {
       this.ctx.fill();
     });
   }
+
+  celebrate() {
+  
+        confetti({
+        particleCount: 100,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 }
+      });
+    }
 
   onCanvasClick(event: MouseEvent) {
     if (this.winner) return;
@@ -211,6 +222,7 @@ export class ConnectDotsComponent implements AfterViewInit {
     if (this.scores[1] > this.scores[2]) this.winner = 1;
     else if (this.scores[2] > this.scores[1]) this.winner = 2;
     else this.winner = 0; // tie
+    this.celebrate();
   }
 
 
