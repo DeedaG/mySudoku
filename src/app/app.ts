@@ -11,5 +11,5 @@ import { GamesMenuComponent } from "./gamesMenu/menu";
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('mySudoku');
+  protected readonly title = signal('christi games');
 }
