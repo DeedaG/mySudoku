@@ -4,10 +4,10 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
 
 <div class="dots-boxes">
   <div class="title-row">
-    <h2>Dots & Boxes</h2>
+    <h2 style="width: 50%">Dots & Boxes</h2>
     <div class="controls">
       <button (click)="newGame()">🔁 New Game</button>
-      <button (click)="goBack()">Back to Main</button>
+      <button style="margin-left: .5rem;" (click)="goBack()">Back to Main</button>
     </div>
   </div>
   <br>
@@ -25,10 +25,12 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
     (click)="onCanvasClick($event)">
   </canvas>
  
-  @if(winner){
-  <div class="winner">
-    🎉 Player {{ winner }} wins!
-  </div>
-}
+@if(winner) {
+    <div class="solved-message">
+      <div>
+       🎉 Player {{ winner }} wins!
+      </div>
+    </div>
+  }
 </div>
 
