@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Card } from '../models/card';
 import { Pile } from '../models/pile';
@@ -28,8 +28,16 @@ export class FortyThievesComponent {
   elapsedMs = 0;
   gameOver = false;
   viewReady = false;
+  screenWidth: number = 0;
+  isMobile: boolean = false;
+  intervalId: any;
 
   constructor(private router: Router) { }
+  
+  ngOnInit() {
+     this.screenWidth = window.innerWidth;
+  this.isMobile = this.screenWidth <= 485;
+  }
 
   ngAfterViewInit() {
     setTimeout(() => this.startGame());
@@ -65,6 +73,19 @@ export class FortyThievesComponent {
 
     // remaining to stock
     while (deck.length > 0) this.piles.stock.push(deck.pop()!);
+    this.startTimer();
+  }
+
+
+  startTimer() {
+    this.startTime = Date.now();
+    this.intervalId = setInterval(() => {
+      this.elapsedMs = Date.now() - this.startTime;
+    }, 1000); // update every sec
+  }
+
+  stopTimer() {
+    clearInterval(this.intervalId);
   }
 
   initPiles() {
@@ -93,6 +114,12 @@ export class FortyThievesComponent {
     }
     return deck;
   }
+
+  @HostListener('window:resize', ['$event'])
+    onResize(event: any) {
+      this.screenWidth = event.target.innerWidth;
+      this.isMobile = this.screenWidth <= 485;
+    }
 
   startDrag(fromPile: Pile, event: PointerEvent, card?: Card, ) {
     if(!card) return;

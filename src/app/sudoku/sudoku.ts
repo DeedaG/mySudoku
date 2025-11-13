@@ -252,7 +252,6 @@ hasConflict(row: number, col: number, val: number): boolean {
   // you can call this when puzzle is solved
   onSolved() {
     this.stopTimer();
-    console.log("final time (ms):", this.elapsedMs);
   }
 
   // optional = convert ms to mm:ss

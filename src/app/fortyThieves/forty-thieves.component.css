@@ -284,6 +284,20 @@ float: right;
   margin-right: 30%;
 }
 
+
+ .timer {
+  background-color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  padding: 5px 8px;
+  position: relative;
+  width: 35%;
+  margin-top: 10px;
+  margin-left: 50%;
+}
+
 @media (max-width: 768px) {
  
 }
@@ -306,6 +320,10 @@ float: right;
     margin: 2rem;
     margin-left: 4%;
     width: 90%;
+  }
+
+  .timer {
+    margin-left: 30%;
   }
 
   .stock-waste-row {
