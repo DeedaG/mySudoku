@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Card } from '../models/card';
-import { Pile } from '../models/pile';
+import { Card } from './models/card';
+import { Pile } from './models/pile';
 import { Router } from '@angular/router';
 
 @Component({
