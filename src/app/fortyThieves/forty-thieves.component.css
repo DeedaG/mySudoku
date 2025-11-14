@@ -196,6 +196,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: scroll;
 }
 
 .dragged-card {
@@ -286,7 +287,6 @@ float: right;
 
 
  .timer {
-
   background-color: white;
   font-size: 12px;
   border-radius: 6px;
@@ -294,9 +294,9 @@ float: right;
   border: none;
   padding: 5px 8px;
   position: relative;
-  width: 35%;
+  width: 30%;
   margin-top: 10px;
-  margin-left: 50%;
+  margin-left: 40%;
 }
 
 @media (max-width: 768px) {
