@@ -5,6 +5,8 @@
     flex-wrap: nowrap; 
     gap: 1rem;
     width: 100%;
+    color: white;
+    font-weight: 5px;
   }
 
   .controls {
@@ -13,9 +15,10 @@
   }
 
   .dots-boxes {
-  text-align: center;
-  margin-top: 20px;
-}
+    text-align: center;
+    margin-top: 20px;
+    background: url('../../assets/suede-316431_1280.jpg');
+  }
 
 canvas {
   border: 2px solid #333;
@@ -23,6 +26,7 @@ canvas {
   display: block;
   background: #fafafa;
   border-radius: 8px;
+  background-color: brown;
 }
 
 .scoreboard {

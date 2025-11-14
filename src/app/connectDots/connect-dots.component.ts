@@ -60,7 +60,7 @@ export class ConnectDotsComponent implements AfterViewInit {
 
   generateDots() {
     this.dots = [];
-    const offset = 40;
+    const offset = 70;
     for (let r = 0; r < this.rows; r++) {
       for (let c = 0; c < this.cols; c++) {
         this.dots.push({ x: offset + c * this.spacing, y: offset + r * this.spacing });
