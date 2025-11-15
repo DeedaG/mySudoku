@@ -60,7 +60,8 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
                [class.facedown]="!piles.waste.top()?.faceUp"
                [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
               [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
-               (click)="startDrag(piles.waste, piles.waste.top())">
+               [class.selected]="piles.waste.top()?.selected"
+              (click)="startDrag(piles.waste, piles.waste.top())">
               @if (piles.waste.top()?.faceUp) {
                 @if (piles.waste.top()?.suit == '♥' || piles.waste.top()?.suit == '♦'){
                   <div class="rank" style="color: red;">
@@ -129,7 +130,8 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
                [class.facedown]="!card.faceUp"
                [class.red]="card.suit === '♥' || card.suit === '♦'"
                [class.black]="card.suit === '♠' || card.suit === '♣'"
-               (click)="startDrag(p, card)">
+               [class.selected]="card.selected"
+               (click)="startDrag(p, card);">
                 @if (card.faceUp) {
                   <div class="rank">
                     {{

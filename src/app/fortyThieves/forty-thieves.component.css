@@ -17,6 +17,13 @@
   font-weight: bold;
 }
 
+.selected {
+  outline: 4px solid yellow;
+  box-shadow: 0 0 12px gold;
+  border-radius: 6px;
+}
+
+
 .stock {
    position: relative;
   width: 60px;

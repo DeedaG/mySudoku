@@ -2,7 +2,8 @@ export class Card {
   constructor(
     public suit: '♠' | '♥' | '♦' | '♣',
     public rank: number,  // 1 = Ace ... 13 = King
-    public faceUp: boolean = false
+    public faceUp: boolean = false,
+    public selected: boolean = false
   ) {}
 
   get display(): string {

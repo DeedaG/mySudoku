@@ -121,11 +121,18 @@ export class FortyThievesComponent {
 
   startDrag(fromPile: Pile, card?: Card, ) {
     if(!card) return;
+    if(card.selected) {
+      card.selected = false;
+      this.selection = {};
+      return;
+    }
     if(this.selection && this.selection.card)return;
+    card.selected = true;
     this.selection = {
       card: card,
       fromPile: fromPile
     };
+    
     console.log('card start drag', card);
   }
 
@@ -135,7 +142,7 @@ export class FortyThievesComponent {
     this.selection.toPile = toPile;
       if (card && (this.tryMoveToFoundation(card) || this.tryMoveToTableau(card))) {
         this.resetDrag();
-        
+        card.selected = false;
       } 
       console.log('selection', this.selection);
   }
@@ -146,6 +153,7 @@ export class FortyThievesComponent {
     const top = this.selection.toPile?.top();
 
     if (!top && card.rank === 1 || (top && card.rank === top.rank + 1)) {
+      card.selected = false;
       this.selection.fromPile!.remove(card);
       this.selection.toPile?.push(card);
       this.selection.fromPile!.cards = [...this.selection.fromPile!.cards];
@@ -162,6 +170,7 @@ export class FortyThievesComponent {
 
     // allow empty pile or same-suit descending
     if (!top || (card.suit === top.suit && card.rank === top.rank - 1)) {
+      card.selected = false;
       this.selection.fromPile.remove(card);
       this.selection.toPile.push(card);
       this.selection.fromPile.cards = [...this.selection.fromPile.cards];
@@ -190,6 +199,8 @@ export class FortyThievesComponent {
     // Force Angular to detect array changes
     this.piles.stock.cards = [...this.piles.stock.cards];
     this.piles.waste.cards = [...this.piles.waste.cards];
+    var card = this.selection.card ? this.selection.card.selected = false : this.selection.card;
+    this.selection = {};
   }
 
   // optional = convert ms to mm:ss
