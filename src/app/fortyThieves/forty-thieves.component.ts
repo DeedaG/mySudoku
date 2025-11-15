@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Card } from './models/card';
 import { Pile } from './models/pile';
 import { Router } from '@angular/router';
+import { Selection } from './models/selection';
 
 @Component({
   selector: 'app-forty-thieves',
@@ -19,10 +20,6 @@ export class FortyThievesComponent {
     waste: new Pile('waste', 0)
   };
 
-  draggedCard: Card | null = null;
-  draggedFrom: Pile | null = null;
-  dragX: number = 0;
-  dragY: number = 0;
   solved: boolean = false;
   startTime!: number;
   elapsedMs = 0;
@@ -31,6 +28,8 @@ export class FortyThievesComponent {
   screenWidth: number = 0;
   isMobile: boolean = false;
   intervalId: any;
+  selection: Selection = {};
+
 
   constructor(private router: Router) { }
   
@@ -53,8 +52,7 @@ export class FortyThievesComponent {
       waste: new Pile('waste', 0)
     };
 
-    this.draggedCard = null;
-    this.draggedFrom = null;
+    this.selection = {};
     this.initPiles();
     const deck = this.createDeck();
 
@@ -121,91 +119,66 @@ export class FortyThievesComponent {
       this.isMobile = this.screenWidth <= 485;
     }
 
-  startDrag(fromPile: Pile, event: PointerEvent, card?: Card, ) {
+  startDrag(fromPile: Pile, card?: Card, ) {
     if(!card) return;
-    if (!card.faceUp) return;
-    this.draggedCard = card;
-    this.draggedFrom = fromPile;
-    (event.target as HTMLElement).setPointerCapture(event.pointerId);
+    if(this.selection && this.selection.card){
+      this.selection = {};
+      return;
+    }
+    this.selection = {
+      card: card,
+      fromPile: fromPile
+    };
+    console.log('card start drag', card);
   }
 
-  dropOnPile(event?: PointerEvent) {
-    if (!this.draggedCard || !this.draggedFrom) return;
-    if (event){
-      let elem = document.elementFromPoint(event.clientX, event.clientY) as HTMLElement;
-      let pileId = elem.closest('.pile')?.getAttribute('data-pile-id');
-      let pileName = elem.closest('.pile')?.getAttribute('data-pile-name');
-      if(!pileId){
-        pileId = elem.closest('.foundation-pile')?.getAttribute('data-pile-id');
-        pileName = elem.closest('.foundation-pile')?.getAttribute('data-pile-name');
-      }
-      
-      if (!pileId) { this.resetDrag(); return; }
-      const toPile = this.getPile(pileId, pileName); 
-      if(!toPile) {this.resetDrag; return;}
-
-      const card = this.draggedCard;
-      if (this.tryMoveToFoundation(card, toPile) || this.tryMoveToTableau(card, this.draggedFrom, toPile)) {
+  dropOnPile(toPile: Pile) {
+    if (!this.selection || !toPile || !this.selection.fromPile || toPile == this.selection.fromPile) return;
+    var card = this.selection.card ? this.selection.card : null;
+    this.selection.toPile = toPile;
+      if (card && (this.tryMoveToFoundation(card) || this.tryMoveToTableau(card))) {
         this.resetDrag();
+        
       } 
-    } else {
-      this.resetDrag();
-    }
+      console.log('selection', this.selection);
   }
-
-    getPile(pileId: any, pileName: any){
-      var pile;
-      if(pileName && pileId && pileName == 'foundation'){
-        pile = this.piles.foundation.find(x => x.id == pileId);
-      }
-      if(pileName && pileId && pileName == 'tableau'){
-        pile = this.piles.tableau.find(x => x.id == pileId);
-      }
-      return pile;
-    }
  
 
-  tryMoveToFoundation(card: Card, targetPile: Pile): boolean {
-    console.log('card foundation', card);
-    console.log('targetPile foundation', targetPile);
-    if (targetPile.name !== 'foundation' || targetPile.suit !== card.suit) return false;
-    const top = targetPile.top();
+  tryMoveToFoundation(card: Card): boolean {
+    if (this.selection.toPile?.name !== 'foundation' || this.selection.toPile?.suit !== card.suit) return false;
+    const top = this.selection.toPile?.top();
 
     if (!top && card.rank === 1 || (top && card.rank === top.rank + 1)) {
-      this.draggedFrom!.remove(card);
-      targetPile.push(card);
-      this.draggedFrom!.cards = [...this.draggedFrom!.cards];
-      targetPile.cards = [...targetPile.cards];
+      this.selection.fromPile!.remove(card);
+      this.selection.toPile?.push(card);
+      this.selection.fromPile!.cards = [...this.selection.fromPile!.cards];
+      this.selection.toPile.cards = [...this.selection.toPile.cards];
       return true;
    }
     return false;
   }
 
-  tryMoveToTableau(card: Card, fromPile: Pile, toPile: Pile): boolean {
-    if (toPile.name !== 'tableau') return false;
-    const top = toPile.top();
+  tryMoveToTableau(card: Card): boolean {
+    if(!this.selection.fromPile) return false;
+    if (this.selection.toPile?.name !== 'tableau') return false;
+    const top = this.selection.toPile.top();
 
     // allow empty pile or same-suit descending
     if (!top || (card.suit === top.suit && card.rank === top.rank - 1)) {
-      fromPile.remove(card);
-      toPile.push(card);
-      fromPile.cards = [...fromPile.cards];
-      toPile.cards = [...toPile.cards];
+      this.selection.fromPile.remove(card);
+      this.selection.toPile.push(card);
+      this.selection.fromPile.cards = [...this.selection.fromPile.cards];
+      this.selection.toPile.cards = [...this.selection.toPile.cards];
       return true;
     }
     return false;
   }
 
   resetDrag() {
-    this.draggedCard = null;
-    this.draggedFrom = null;
+    this.selection = {};
   }
 
-  onPointerMove(event: PointerEvent) {
-    if (!this.draggedCard) return;
-    this.dragX = event.clientX - 24;
-    this.dragY = event.clientY - 35;
-  }
+  
 
   trackByIndex(index: number, _item: any): number {
     return index;

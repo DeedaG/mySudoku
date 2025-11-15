@@ -13,9 +13,8 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
  </div>
 
 <!-- Game Container -->
-<div class="forty-thieves-game" (pointermove)="onPointerMove($event)">
+<div class="forty-thieves-game" >
   <div style="color: white; background-color: green; font-weight: 20px;" >
-    <strong>**Best played on full screens**</strong>
     <strong >
       Place aces on the corresponding suit of foundation pile.
     </strong>
@@ -55,14 +54,45 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
       <div class="waste"
            [attr.data-pile-id]="piles.waste.id"
            [attr.data-pile-name]="piles.waste.name"
-           (pointerup)="dropOnPile($event)">
+           (click)="dropOnPile(piles.waste)">
         @if(piles.waste.top()){
-          <div class="card"
+          <div class="card-waste" 
                [class.facedown]="!piles.waste.top()?.faceUp"
                [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
-               [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
-               (pointerdown)="startDrag(piles.waste, $event, piles.waste.top())">
-            {{ piles.waste.top()?.display }}
+              [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
+               (click)="startDrag(piles.waste, piles.waste.top())">
+              @if (piles.waste.top()?.faceUp) {
+                @if (piles.waste.top()?.suit == '♥' || piles.waste.top()?.suit == '♦'){
+                  <div class="rank" style="color: red;">
+                    {{
+                      piles.waste.top()?.rank === 1 ? 'A' :
+                      piles.waste.top()?.rank === 11 ? 'J' :
+                      piles.waste.top()?.rank === 12 ? 'Q' :
+                      piles.waste.top()?.rank === 13 ? 'K' :
+                      piles.waste.top()?.rank
+                    }}
+                  </div>
+                }
+                @if (piles.waste.top()?.suit == '♠' || piles.waste.top()?.suit == '♣'){
+                     <div class="rank" style="color: black">
+                    {{
+                      piles.waste.top()?.rank === 1 ? 'A' :
+                      piles.waste.top()?.rank === 11 ? 'J' :
+                      piles.waste.top()?.rank === 12 ? 'Q' :
+                      piles.waste.top()?.rank === 13 ? 'K' :
+                      piles.waste.top()?.rank
+                    }}
+                  </div>
+                }
+                  @if (piles.waste.top()?.suit == '♥' || piles.waste.top()?.suit == '♦'){
+                    <div class="suit" style="color: red">{{ piles.waste.top()?.suit }}</div>
+                  }
+                  @if(piles.waste.top()?.suit == '♠' || piles.waste.top()?.suit == '♣'){
+                      <div class="suit" style="color: black">{{ piles.waste.top()?.suit }}</div>
+                  }
+
+                } 
+
           </div>
         }
       </div>
@@ -74,7 +104,7 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
         <div class="foundation-pile"
              [attr.data-pile-id]="p.id"
              [attr.data-pile-name]="p.name"
-             (pointerup)="dropOnPile($event)">
+             (click)="dropOnPile(p)">
           {{p.suit}}
           @if(p.top()){
             <div class="card"
@@ -93,13 +123,13 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
       <div class="pile tableau-pile"
            [attr.data-pile-id]="p.id"
            [attr.data-pile-name]="p.name"
-           (pointerup)="dropOnPile($event)">
+           (click)="dropOnPile(p)">
         @for(card of p.cards; track trackByIndex($index, card); let j = $index){
           <div class="card-tableau"
                [class.facedown]="!card.faceUp"
                [class.red]="card.suit === '♥' || card.suit === '♦'"
                [class.black]="card.suit === '♠' || card.suit === '♣'"
-               (pointerdown)="startDrag(p, $event, card)">
+               (click)="startDrag(p, card)">
                 @if (card.faceUp) {
                   <div class="rank">
                     {{
@@ -117,16 +147,4 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
       </div>
     }
   </div>
-
-  <!-- Dragged Card -->
-  @if(draggedCard){
-    <div class="dragged-card"
-         [style.top.px]="dragY"
-         [style.left.px]="dragX"
-         [class.red]="draggedCard.suit === '♥' || draggedCard.suit === '♦'"
-         [class.black]="draggedCard.suit === '♠' || draggedCard.suit === '♣'">
-      {{ draggedCard.display }}
-    </div>
-  }
-
 </div>
