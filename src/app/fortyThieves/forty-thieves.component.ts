@@ -121,10 +121,7 @@ export class FortyThievesComponent {
 
   startDrag(fromPile: Pile, card?: Card, ) {
     if(!card) return;
-    if(this.selection && this.selection.card){
-      this.selection = {};
-      return;
-    }
+    if(this.selection && this.selection.card)return;
     this.selection = {
       card: card,
       fromPile: fromPile
