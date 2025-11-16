@@ -6,7 +6,7 @@ import { GamesMenuComponent } from "./gamesMenu/menu";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, SudokuComponent, NgStyle, GamesMenuComponent], 
+  imports: [RouterOutlet], 
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

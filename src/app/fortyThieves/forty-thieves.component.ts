@@ -4,6 +4,8 @@ import { Card } from './models/card';
 import { Pile } from './models/pile';
 import { Router } from '@angular/router';
 import { Selection } from './models/selection';
+import { OnInit, AfterViewInit, Inject, PLATFORM_ID } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-forty-thieves',
@@ -13,6 +15,7 @@ import { Selection } from './models/selection';
   styleUrls: ['./forty-thieves.component.css']
 })
 export class FortyThievesComponent {
+  isBrowser: boolean = false;
   piles = {
     foundation: [] as Pile[],
     tableau: [] as Pile[],
@@ -26,23 +29,22 @@ export class FortyThievesComponent {
   gameOver = false;
   viewReady = false;
   screenWidth: number = 0;
-  isMobile: boolean = false;
   intervalId: any;
   selection: Selection = {};
 
-
-  constructor(private router: Router) { }
-  
-  ngOnInit() {
-     this.screenWidth = window.innerWidth;
-  this.isMobile = this.screenWidth <= 485;
+  constructor(@Inject(PLATFORM_ID) private platformId: Object,
+  private router: Router) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngAfterViewInit() {
-    setTimeout(() => this.startGame());
+    if (this.isBrowser) {
+      setTimeout(() => this.startGame());
+    }
   }
 
   startGame() {
+    if (!this.isBrowser) return; 
     this.viewReady = true;
       // reset piles
     this.piles = {
@@ -54,6 +56,7 @@ export class FortyThievesComponent {
 
     this.selection = {};
     this.initPiles();
+    if (!this.isBrowser) return;
     const deck = this.createDeck();
 
     // deal 4 cards to each tableau pile, last one faceUp
@@ -76,6 +79,7 @@ export class FortyThievesComponent {
 
 
   startTimer() {
+    if (!this.isBrowser) return;
     this.startTime = Date.now();
     this.intervalId = setInterval(() => {
       this.elapsedMs = Date.now() - this.startTime;
@@ -83,6 +87,7 @@ export class FortyThievesComponent {
   }
 
   stopTimer() {
+    if (!this.isBrowser) return;
     clearInterval(this.intervalId);
   }
 
@@ -113,13 +118,8 @@ export class FortyThievesComponent {
     return deck;
   }
 
-  @HostListener('window:resize', ['$event'])
-    onResize(event: any) {
-      this.screenWidth = event.target.innerWidth;
-      this.isMobile = this.screenWidth <= 485;
-    }
-
   startDrag(fromPile: Pile, card?: Card, ) {
+    if (!this.isBrowser) return;
     if(!card) return;
     if(card.selected) {
       card.selected = false;
