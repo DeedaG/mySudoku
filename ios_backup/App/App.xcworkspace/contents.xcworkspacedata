@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <Group
+      location = "group:App/public"
+      name = "public">
+      <FileRef
+         location = "group:favicon.ico">
+      </FileRef>
+      <FileRef
+         location = "group:index.html">
+      </FileRef>
+      <FileRef
+         location = "group:main-AKFT6DPY.js">
+      </FileRef>
+      <FileRef
+         location = "group:cordova.js">
+      </FileRef>
+      <Group
+         location = "group:connect-dots"
+         name = "connect-dots">
+         <FileRef
+            location = "group:index.html">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:_redirects">
+      </FileRef>
+      <FileRef
+         location = "group:index.csr.html">
+      </FileRef>
+      <FileRef
+         location = "group:styles-5INURTSO.css">
+      </FileRef>
+      <Group
+         location = "group:sudoku"
+         name = "sudoku">
+         <FileRef
+            location = "group:index.html">
+         </FileRef>
+      </Group>
+      <Group
+         location = "group:forty-thieves"
+         name = "forty-thieves">
+         <FileRef
+            location = "group:index.html">
+         </FileRef>
+      </Group>
+      <FileRef
+         location = "group:cordova_plugins.js">
+      </FileRef>
+      <Group
+         location = "group:media"
+         name = "media">
+         <FileRef
+            location = "group:suede-316431_1280-CWAI4OHD.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:green-2847123_1280-5ZQY6Z3F.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:board-19208_1280-6XEIRCPB.jpg">
+         </FileRef>
+         <FileRef
+            location = "group:jeans-1161035_1280-C5RZ5QNQ.jpg">
+         </FileRef>
+      </Group>
+   </Group>
+</Workspace>

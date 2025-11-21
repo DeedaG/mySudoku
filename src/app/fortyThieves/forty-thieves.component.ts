@@ -118,9 +118,12 @@ export class FortyThievesComponent {
     return deck;
   }
 
-  startDrag(fromPile: Pile, card?: Card, ) {
+  startDrag(fromPile: Pile, card?: Card, waste = false) {
     if (!this.isBrowser) return;
     if(!card) return;
+    if(!waste && fromPile.top() != card){
+      return;
+    }
     if(card.selected) {
       card.selected = false;
       this.selection = {};
@@ -132,8 +135,6 @@ export class FortyThievesComponent {
       card: card,
       fromPile: fromPile
     };
-    
-    console.log('card start drag', card);
   }
 
   dropOnPile(toPile: Pile) {
@@ -144,7 +145,6 @@ export class FortyThievesComponent {
         this.resetDrag();
         card.selected = false;
       } 
-      console.log('selection', this.selection);
   }
  
 
@@ -211,14 +211,11 @@ export class FortyThievesComponent {
     return `${mm}:${ss}`;
   }
 
-  noCardsLeft(){
-    var cardsLeft = this.piles.stock.cards.length;
-   // return cardsLeft == 0;
-   return true;
-  }
-
   checkGameOver(){
-    var gameOver = this.piles.stock.cards.length == 0 || this.solved;
+    var wasteEmpty = this.piles.waste.cards.length == 0;
+    var stockEmpty = this.piles.stock.cards.length == 0;
+    this.solved = wasteEmpty && stockEmpty;
+    var gameOver = stockEmpty || this.solved;
     this.gameOver = gameOver;
     return gameOver;
   }

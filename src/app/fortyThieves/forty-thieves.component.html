@@ -61,7 +61,7 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
                [class.red]="piles.waste.top()?.suit === '♥' || piles.waste.top()?.suit === '♦'"
               [class.black]="piles.waste.top()?.suit === '♠' || piles.waste.top()?.suit === '♣'"
                [class.selected]="piles.waste.top()?.selected"
-              (click)="startDrag(piles.waste, piles.waste.top())">
+              (click)="startDrag(piles.waste, piles.waste.top(), true)">
               @if (piles.waste.top()?.faceUp) {
                 @if (piles.waste.top()?.suit == '♥' || piles.waste.top()?.suit == '♦'){
                   <div class="rank" style="color: red;">
