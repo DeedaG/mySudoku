@@ -75,6 +75,8 @@ export class FortyThievesComponent {
     // remaining to stock
     while (deck.length > 0) this.piles.stock.push(deck.pop()!);
     this.startTimer();
+    this.gameOver = false;
+    this.solved = false;
   }
 
 
@@ -215,8 +217,7 @@ export class FortyThievesComponent {
     var wasteEmpty = this.piles.waste.cards.length == 0;
     var stockEmpty = this.piles.stock.cards.length == 0;
     this.solved = wasteEmpty && stockEmpty;
-    var gameOver = stockEmpty || this.solved;
-    this.gameOver = gameOver;
+    var gameOver = this.gameOver || this.solved;
     return gameOver;
   }
 
