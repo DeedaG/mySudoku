@@ -22,6 +22,7 @@ html, body {
   padding-left: max(12px, env(safe-area-inset-left));
   padding-right: max(12px, env(safe-area-inset-right));
   box-sizing: border-box;
+  height: 800px;
 }
 
 .sidebar {
@@ -31,11 +32,13 @@ html, body {
   gap: 0.75rem;
   align-items: left;
   box-sizing: border-box;
+  margin-top: 20px;
 }
 
 .puzzle-area {
   flex: 1;
   box-sizing: border-box;
+  margin-top: 50px;
 }
 
 /* --- TITLE AND BUTTONS --- */
@@ -138,6 +141,14 @@ html, body {
   align-items: center;
   flex-wrap: wrap; /* prevent wrapping on desktop */
 }
+
+.back-to-main {
+  padding: 3px;
+  margin: 3px;
+  margin-bottom: 0px;
+  border-radius: 6px;
+}
+
 .back-button {
   position: fixed;
   left: 12rem;
@@ -361,11 +372,18 @@ html, body {
 @media (max-width: 768px) {
   .layout {
     flex-direction: column;
+    height: 900px;
   }
   .sidebar {
     width: 100%;
     align-items: flex-start;
+    margin-top: 30px;
   }
+
+  .puzzle-area {
+    margin-top: -100px;
+  }
+
   .title {
     width: 90%;
   }
