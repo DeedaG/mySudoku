@@ -2,40 +2,98 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
      crossorigin="anonymous"></script>
 
-<table class="crossword">
-  @for(row of grid; track trackByIndex($index, row); ) {
-    <tr>
-      @for(cell of row; track trackByIndex($index, cell);) {
-        <td class="@if(cell.isBlack){ black } @if(isSelected(rowIndex, colIndex)){ selected }">
-          @if(cell.clueNumber){
-            <span class="clue-number">{{cell.clueNumber}}</span>
-          }
-          @if(!cell.isBlack){
-            <input maxlength="1" value="{{cell.userLetter}}" 
-                   onfocus="selectCell(rowIndex, colIndex)" style="text-transform: uppercase;" />
-          }
-        </td>
-      }
-    </tr>
-  }
-</table>
 
-<div class="clues">
-  <h3>Across</h3>
-  <ul>
-    @for(clue of clues; track trackByIndex($index, clue);) {
-      @if(clue.direction == 'across'){
-        <li>{{clue.number}}: {{clue.text}}</li>
-      }
-    }
-  </ul>
+<div class="wrapper">
 
-  <h3>Down</h3>
-  <ul>
-    @for(clue of clues; track trackByIndex($index, clue);) {
-      @if(clue.direction == 'down'){
-        <li>{{clue.number}}: {{clue.text}}</li>
+<strong class="title">Daily Crossword</strong>
+    <!-- RIGHT column = puzzle + solved message -->
+    <div class="puzzle-area">
+
+      @if (solved) {
+        <div class="solved-message">
+          <div >🎉 Congratulations! 
+            <span style="font-size: 20px;">You solved the puzzle in {{formattedTime}} minutes!</span>
+          </div>
+          
+        </div>
       }
-    }
-  </ul>
+
+      <div class="sudoku-wrapper">
+        
+        <!-- Container with background image -->
+        <div class="board-container">
+          <div class="sudoku-board">
+            
+          <div class="crossword-container">
+            <div class="clues">
+      <div class="navigate">
+        <button class="back-button" class="back-to-main" (click)="goBack()">Back to Main</button>
+      </div>
+      
+      <div class="notes-and-timer">
+        <div class="timer">
+          Time: {{ formattedTime }}
+        </div>
+      </div>
+      <app-ads></app-ads>
+              <h3>Across</h3>
+              <ul>
+                @for(clue of clues; track trackByIndex($index, clue)) {
+                  @if(clue.direction == 'across'){
+                    <li>{{clue.number}}: {{clue.text}}</li>
+                  }
+                }
+              </ul>
+
+              <h3>Down</h3>
+              <ul>
+                @for(clue of clues; track trackByIndex($index, clue)) {
+                  @if(clue.direction == 'down'){
+                    <li>{{clue.number}}: {{clue.text}}</li>
+                  }
+                }
+              </ul>
+            </div>
+
+            <div class="grid-wrapper">
+              <table class="crossword">
+                @for(row of grid; track trackByIndex($index, row)) {
+                  <tr>
+                    @for(cell of row; track trackByIndex($index, cell)) {
+                      <td class="@if(cell.isBlack){ black } 
+                                @if(isSelected(grid.indexOf(row), row.indexOf(cell))){ selected } 
+                                @if(cell.isCorrect === true){ correct } 
+                                @if(cell.isCorrect === false){ incorrect }">
+                        @if(cell.clueNumber){
+                          <span class="clue-number">{{cell.clueNumber}}</span>
+                        }
+                        @if(!cell.isBlack){
+                          <input maxlength="1" value="{{cell.userLetter}}" 
+                                oninput="checkPuzzle()" 
+                                onfocus="selectCell(grid.indexOf(row), row.indexOf(cell))" 
+                                style="text-transform: uppercase;" />
+                        }
+                      </td>
+                    }
+                  </tr>
+                }
+              </table>
+            </div>
+          </div>
+
+          <button onclick="checkPuzzle()">Check Puzzle</button>\
+        
+          </div>
+        </div>
+
+      </div><!-- sudoku-wrapper -->
+      <div class="christi">Christi Games</div>
+
+    </div><!-- puzzle-area -->
 </div>
+
+
+
+
+
+
