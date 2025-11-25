@@ -2,3 +2,40 @@
 src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
      crossorigin="anonymous"></script>
 
+<table class="crossword">
+  @for(row of grid; track trackByIndex($index, row); ) {
+    <tr>
+      @for(cell of row; track trackByIndex($index, cell);) {
+        <td class="@if(cell.isBlack){ black } @if(isSelected(rowIndex, colIndex)){ selected }">
+          @if(cell.clueNumber){
+            <span class="clue-number">{{cell.clueNumber}}</span>
+          }
+          @if(!cell.isBlack){
+            <input maxlength="1" value="{{cell.userLetter}}" 
+                   onfocus="selectCell(rowIndex, colIndex)" style="text-transform: uppercase;" />
+          }
+        </td>
+      }
+    </tr>
+  }
+</table>
+
+<div class="clues">
+  <h3>Across</h3>
+  <ul>
+    @for(clue of clues; track trackByIndex($index, clue);) {
+      @if(clue.direction == 'across'){
+        <li>{{clue.number}}: {{clue.text}}</li>
+      }
+    }
+  </ul>
+
+  <h3>Down</h3>
+  <ul>
+    @for(clue of clues; track trackByIndex($index, clue);) {
+      @if(clue.direction == 'down'){
+        <li>{{clue.number}}: {{clue.text}}</li>
+      }
+    }
+  </ul>
+</div>

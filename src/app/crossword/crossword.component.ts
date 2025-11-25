@@ -50,4 +50,10 @@ export class CrosswordComponent implements OnInit {
   isSelected(row: number, col: number) {
     return this.selectedCell?.row === row && this.selectedCell?.col === col;
   }
+
+
+  trackByIndex(index: number, _item: any): number {
+    return index;
+  }
+
 }
