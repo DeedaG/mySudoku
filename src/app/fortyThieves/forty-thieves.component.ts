@@ -217,8 +217,7 @@ export class FortyThievesComponent {
     var wasteEmpty = this.piles.waste.cards.length == 0;
     var stockEmpty = this.piles.stock.cards.length == 0;
     this.solved = wasteEmpty && stockEmpty;
-    var gameOver = this.gameOver || this.solved;
-    return gameOver;
+    return this.solved;
   }
 
    goBack(){

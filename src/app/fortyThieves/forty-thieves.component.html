@@ -21,23 +21,12 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
   </div>
 
   <!-- End Messages -->
-  @if(solved) {
+  @if(checkGameOver() && viewReady) {
     <div class="end-message">
       <div>
         🎉 Congratulations! 
         <br>
         <span style="font-size: 20px;">You won in {{formattedTime}} minutes!</span>
-      </div>
-    </div>
-  }
-
-  @if(checkGameOver() && viewReady) {
-    <div class="end-message">
-      <div>
-        No Cards Left
-        <br>
-        <h2>Game Over</h2>
-        <br>
         <button class="new-game" (click)="startGame()">New Game</button>
       </div>
     </div>
