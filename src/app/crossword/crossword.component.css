@@ -37,6 +37,11 @@
   width: 16rem;
 }
 
+.crossword-date {
+  font-size: 14px;
+  display: block;
+}
+
 .back-button {
   font-size: 12px;
   border-radius: 6px;
@@ -143,13 +148,15 @@
 
 /* Highlight styles */
 .selected input {
-  background-color: #cfe8ff;
+  background-color: lightyellow;
+  border-color: black;
 }
 .correct input {
-  background-color: #c7f9c1;
+  background-color: #98ed8e;
+  border-color: black;
 }
 .incorrect input {
-  background-color: #ffd1d1;
+  background-color: white;
 }
 
 /* --- SOLVED MESSAGE (same as Sudoku) --- */

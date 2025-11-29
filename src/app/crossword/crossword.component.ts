@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
+import { get } from 'http';
 
 @Component({
   selector: 'app-crossword',
@@ -21,12 +22,14 @@ export class CrosswordComponent implements OnInit {
   grid: Cell[][] = [];
   clues: Clue[] = [];
   selectedCell: { row: number, col: number } | null = null;
-
+  today: Date = new Date();
+  todaysDate = '';
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object, 
   private router: Router) {}
 
   ngOnInit(): void {
+    this.todaysDate = this.today.toLocaleDateString();
     this.selectDailyPuzzle();
     this.initGrid();
     this.placeClues();
@@ -34,12 +37,12 @@ export class CrosswordComponent implements OnInit {
 
     selectDailyPuzzle() {
       const today = new Date();
-      const index = today.getDate() % cluesList.length;
+      const seed = today.getFullYear() * 366 + today.getMonth() * 31 + today.getDate();
+      const index = seed % cluesList.length;
       this.clues = cluesList[index];
-      if(this.elapsedMs == 0){
-        this.startTimer();
-      }
+      if (this.elapsedMs == 0) this.startTimer();
     }
+
 
   initGrid() {
     for (let i = 0; i < this.gridSize; i++) {
@@ -72,6 +75,14 @@ export class CrosswordComponent implements OnInit {
 
   isSelected(row: number, col: number) {
     return this.selectedCell?.row === row && this.selectedCell?.col === col;
+  }
+
+  isBlack(row: number, col: number): boolean {
+    return this.grid[row][col].isBlack;
+  }
+
+  correct(row: number, col: number): boolean | null {
+    return this.grid[row][col].isCorrect || null;
   }
 
   trackByIndex(index: number, _item: any): number {
@@ -116,18 +127,83 @@ export class CrosswordComponent implements OnInit {
       this.router.navigateByUrl('/');
     }
 
-    checkPuzzle() {
-      for (let i = 0; i < this.gridSize; i++) {
-        for (let j = 0; j < this.gridSize; j++) {
-          const cell = this.grid[i][j];
-          if (!cell.isBlack && cell.userLetter) {
-            cell.isCorrect = (cell.userLetter.toUpperCase() === cell.letter);
-          } else {
-            cell.isCorrect = null; // no input yet
-          }
-        }
+  checkPuzzle() {
+    // First, clear all correctness
+    for (let row of this.grid) {
+      for (let cell of row) {
+        cell.isCorrect = null;
       }
     }
 
-    
+    // Check each clue as a whole
+    for (const clue of this.clues) {
+      const { row, col, answer, direction } = clue;
+
+      let correctWord = true;
+
+      for (let i = 0; i < answer.length; i++) {
+        const r = row + (direction === 'down' ? i : 0);
+        const c = col + (direction === 'across' ? i : 0);
+        const cell = this.grid[r][c];
+
+        if (!cell.userLetter || cell.userLetter.toUpperCase() !== answer[i]) {
+          correctWord = false;
+        }
+        cell.isCorrect = false;
+      }
+
+      // If the whole word is correct, mark all cells green
+      if (correctWord) {
+        for (let i = 0; i < answer.length; i++) {
+          const r = row + (direction === 'down' ? i : 0);
+          const c = col + (direction === 'across' ? i : 0);
+          this.grid[r][c].isCorrect = true;
+        }
+      }
+    }
+    this.solved = this.grid.every(row =>
+      row.every(cell => cell.isBlack || cell.isCorrect === true)
+    );
+    if (this.solved) {
+      this.stopTimer();
+      this.celebrate();
+    }
+  }
+
+
+    validateClues() {
+  for (let puzzleIndex = 0; puzzleIndex < cluesList.length; puzzleIndex++) {
+    const clues = cluesList[puzzleIndex];
+    const grid: string[][] = Array.from({ length: this.gridSize },
+      () => Array(this.gridSize).fill(null)
+    );
+
+    for (const clue of clues) {
+      const { row, col, answer, direction, number } = clue;
+
+      for (let i = 0; i < answer.length; i++) {
+        let r = row + (direction === 'down' ? i : 0);
+        let c = col + (direction === 'across' ? i : 0);
+
+        if (r >= this.gridSize || c >= this.gridSize) {
+          console.error(
+            `❌ Puzzle ${puzzleIndex}, Clue ${number} goes out of bounds.`
+          );
+          continue;
+        }
+
+        if (grid[r][c] && grid[r][c] !== null && grid[r][c] !== answer[i]) {
+          console.error(
+            `❌ Puzzle ${puzzleIndex}, Clue ${number} conflicts at (${r},${c}).`
+          );
+        }
+
+        grid[r][c] = answer[i];
+      }
+    }
+  }
+
+  console.log("Validation done.");
+}
+
 }

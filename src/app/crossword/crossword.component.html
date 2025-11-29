@@ -7,7 +7,9 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
 
     <!-- LEFT: SIDEBAR -->
     <div class="sidebar">
-      <strong class="title">Daily Crossword</strong>
+      <strong class="title">Daily Crossword
+        <span class="crossword-date">{{ todaysDate }}</span>
+      </strong>
 
       <button class="back-button" (click)="goBack()">Back to Main</button>
 
@@ -51,10 +53,9 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
           @for(row of grid; track trackByIndex($index, row); let i = $index) {
             <tr>
               @for(cell of row; track trackByIndex($index, cell); let j = $index) {
-                <td class="@if(cell.isBlack){ black }
-                           @if(isSelected(i, j)){ selected }
-                           @if(cell.isCorrect === true){ correct }
-                           @if(cell.isCorrect === false){ incorrect }">
+                <td [class.selected]="isSelected(i, j)"
+                    [class.correct]="correct(i, j)"
+                    [class.black]="isBlack(i, j)">
                   @if(cell.clueNumber) {
                     <span class="clue-number">{{ cell.clueNumber }}</span>
                   }
@@ -74,8 +75,6 @@ src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pu
         </table>
         <div class="christi">Christi Games</div>
       </div>
-
-      
 
     </div>
   </div>
