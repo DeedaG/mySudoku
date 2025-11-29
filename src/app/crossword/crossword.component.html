@@ -1,0 +1,80 @@
+<script async 
+src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5670541810503551"
+     crossorigin="anonymous"></script>
+
+<div class="wrapper">
+  <div class="layout">
+
+    <!-- LEFT: SIDEBAR -->
+    <div class="sidebar">
+      <strong class="title">Daily Crossword
+        <span class="crossword-date">{{ todaysDate }}</span>
+      </strong>
+
+      <button class="back-button" (click)="goBack()">Back to Main</button>
+
+      <div class="timer">Time: {{ formattedTime }}</div>
+
+      <div class="clues-box">
+        <h3>Across</h3>
+        <ul>
+          @for(clue of clues; track trackByIndex($index, clue)) {
+            @if(clue.direction === 'across') {
+              <li>{{ clue.number }}: {{ clue.text }}</li>
+            }
+          }
+        </ul>
+
+        <h3>Down</h3>
+        <ul>
+          @for(clue of clues; track trackByIndex($index, clue)) {
+            @if(clue.direction === 'down') {
+              <li>{{ clue.number }}: {{ clue.text }}</li>
+            }
+          }
+        </ul>
+      </div>
+    </div>
+
+    <!-- RIGHT: PUZZLE AREA -->
+    <div class="puzzle-area">
+
+      @if(solved) {
+        <div class="solved-message">
+          🎉 Congratulations!
+          <div style="font-size: 20px;">You solved the puzzle in {{ formattedTime }} minutes!</div>
+        </div>
+      }
+
+      <div class="board-container">
+        <table class="crossword">
+          @for(row of grid; track trackByIndex($index, row); let i = $index) {
+            <tr>
+              @for(cell of row; track trackByIndex($index, cell); let j = $index) {
+                <td [class.selected]="isSelected(i, j)"
+                    [class.correct]="correct(i, j)"
+                    [class.black]="isBlack(i, j)">
+                  @if(cell.clueNumber) {
+                    <span class="clue-number">{{ cell.clueNumber }}</span>
+                  }
+
+                  @if(!cell.isBlack) {
+                    <input 
+                      maxlength="1"
+                      [(ngModel)]="cell.userLetter"
+                      (input)="checkPuzzle()"
+                      (focus)="selectCell(i, j)"
+                    />
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </table>
+        <div class="christi">Christi Games</div>
+      </div>
+
+    </div>
+      <app-ads></app-ads>
+  </div>
+</div>
