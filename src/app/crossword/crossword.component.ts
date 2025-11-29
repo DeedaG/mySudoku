@@ -1,11 +1,11 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
-import { Cell, Clue, cluesList } from './models/crosswordData';
+import { Cell, Clue } from './models/crosswordData';
+import { cluesList } from './models/generated_cluesList_365';
 import confetti from 'canvas-confetti';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdsComponent } from '../components/ads/ads.component';
-import { get } from 'http';
 
 @Component({
   selector: 'app-crossword',

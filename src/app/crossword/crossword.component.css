@@ -14,12 +14,11 @@
 .layout {
   display: flex;
   flex-direction: row;
-  gap: 4rem;
+  gap: 5rem;
   width: 100%;
   margin-top: 20px;
 }
 
-/* --- SIDEBAR (LEFT COLUMN LIKE SUDOKU) --- */
 .sidebar {
   width: 220px;
   display: flex;
@@ -92,7 +91,7 @@
 /* --- PUZZLE AREA (RIGHT) --- */
 .puzzle-area {
   flex: 1;
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
 /* --- CROSSWORD BOARD CONTAINER (like Sudoku green background) --- */
